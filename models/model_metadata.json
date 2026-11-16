@@ -1,0 +1,23 @@
+{
+  "best_model": "CatBoost",
+  "feature_set": "F_clean+FE",
+  "n_features": 23,
+  "n_base_features": 22,
+  "n_engineered_features": 1,
+  "test_auc": 0.7904,
+  "test_mcc": 0.2154,
+  "optimal_threshold_10_1": 0.09,
+  "calibrated": true,
+  "leaking_columns_removed": [
+    "rate_of_interest",
+    "Interest_rate_spread",
+    "Upfront_charges",
+    "property_value",
+    "credit_type",
+    "age",
+    "submission_of_application",
+    "LTV",
+    "dtir1"
+  ],
+  "seed": 42
+}

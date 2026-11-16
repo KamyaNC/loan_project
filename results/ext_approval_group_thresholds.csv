@@ -1,0 +1,25 @@
+dataset,attribute,ratio,policy,group,threshold
+approval,Gender,5,P2,Male,0.11969667049889128
+approval,Gender,5,P2,Female,0.1357061135718159
+approval,Gender,5,P3,Male,0.12464372248363374
+approval,Gender,5,P3,Female,0.11728651543648094
+approval,Gender,10,P2,Male,0.06591533809334627
+approval,Gender,10,P2,Female,0.07764979318623741
+approval,Gender,10,P3,Male,0.11775087607592749
+approval,Gender,10,P3,Female,0.10987404630723938
+approval,Married,5,P2,Yes,0.12229713601919645
+approval,Married,5,P2,No,0.2163803370121775
+approval,Married,5,P3,Yes,0.10388780714734647
+approval,Married,5,P3,No,0.13588166699991616
+approval,Married,10,P2,Yes,0.06058539694133133
+approval,Married,10,P2,No,0.12723256504922617
+approval,Married,10,P3,Yes,0.10388780714734647
+approval,Married,10,P3,No,0.13588166699991616
+approval,Education,5,P2,Graduate,0.12683603292967074
+approval,Education,5,P2,Not Graduate,0.17569894716810908
+approval,Education,5,P3,Graduate,0.12769961232073618
+approval,Education,5,P3,Not Graduate,0.13123802772111748
+approval,Education,10,P2,Graduate,0.06382261055288209
+approval,Education,10,P2,Not Graduate,0.0992634296472894
+approval,Education,10,P3,Graduate,0.08901972346543778
+approval,Education,10,P3,Not Graduate,0.09659412044327101

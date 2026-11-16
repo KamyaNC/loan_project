@@ -1,0 +1,7 @@
+dataset,model,baseline,mean_auc,baseline_mean_auc,mean_diff,t_stat,p_value,p_value_holm,significant_holm
+default,LightGBM,CatBoost,0.7886,0.7897,-0.0011,-1.7504,0.154944,0.266633,False
+default,XGBoost,CatBoost,0.7891,0.7897,-0.0007,-1.2898,0.266633,0.266633,False
+default,LightGBM,CatBoost,0.7882,0.7898,-0.0017,-1.9979,0.116394,0.266633,False
+default,XGBoost,CatBoost,0.7888,0.7898,-0.001,-1.373,0.241707,0.266633,False
+default,LightGBM,CatBoost,0.788,0.7893,-0.0013,-5.0042,0.007468,0.044809,True
+default,XGBoost,CatBoost,0.7886,0.7893,-0.0007,-2.9581,0.041631,0.208154,False

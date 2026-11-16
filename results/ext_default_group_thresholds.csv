@@ -1,0 +1,29 @@
+dataset,attribute,ratio,policy,group,threshold
+default,Gender,5,P2,Joint,0.15384615384615385
+default,Gender,5,P2,Female,0.15495322619333174
+default,Gender,5,P2,Sex Not Available,0.2202541393916057
+default,Gender,5,P2,Male,0.15495322619333174
+default,Gender,5,P3,Joint,0.14028169014084507
+default,Gender,5,P3,Female,0.16341923318667373
+default,Gender,5,P3,Sex Not Available,0.21340929009640666
+default,Gender,5,P3,Male,0.16341923318667503
+default,Gender,10,P2,Joint,0.08358358358358359
+default,Gender,10,P2,Female,0.0737463126843658
+default,Gender,10,P2,Sex Not Available,0.11259259259259258
+default,Gender,10,P2,Male,0.08047451106123756
+default,Gender,10,P3,Joint,0.08358358358358359
+default,Gender,10,P3,Female,0.08047451106123756
+default,Gender,10,P3,Sex Not Available,0.11259259259259258
+default,Gender,10,P3,Male,0.08358358358358359
+default,AgeGroup,5,P2,55+,0.18456162642947904
+default,AgeGroup,5,P2,35-54,0.15495322619333174
+default,AgeGroup,5,P2,<=34,0.15838976674191121
+default,AgeGroup,5,P3,55+,0.18456162642947904
+default,AgeGroup,5,P3,35-54,0.1705955334987593
+default,AgeGroup,5,P3,<=34,0.1705955334987593
+default,AgeGroup,10,P2,55+,0.10094378334017234
+default,AgeGroup,10,P2,35-54,0.09193346449651225
+default,AgeGroup,10,P2,<=34,0.08503387108038139
+default,AgeGroup,10,P3,55+,0.09867394695787832
+default,AgeGroup,10,P3,35-54,0.09193346449651225
+default,AgeGroup,10,P3,<=34,0.09193346449651225

@@ -1,0 +1,4 @@
+dataset,feature_set,model,val_auc,params
+default,F_clean+FE,LightGBM,0.7817,"{'n_estimators': 752, 'learning_rate': 0.011276936005163711, 'num_leaves': 59, 'min_child_samples': 34, 'subsample': 0.7105242038543742, 'colsample_bytree': 0.8618081715407186, 'reg_lambda': 0.12634625780144174, 'reg_alpha': 0.006331206316808558}"
+default,F_clean+FE,XGBoost,0.7827,"{'n_estimators': 980, 'max_depth': 7, 'learning_rate': 0.01339824434463739, 'subsample': 0.8777157993990697, 'colsample_bytree': 0.7135842486721624, 'reg_lambda': 1.7026515356818075, 'reg_alpha': 2.015778431280265}"
+default,F_clean+FE,CatBoost,0.7843,"{'iterations': 442, 'depth': 7, 'learning_rate': 0.05503953312096556, 'l2_leaf_reg': 1.0748168479784903, 'border_count': 57}"

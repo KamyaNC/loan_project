@@ -1,0 +1,12 @@
+dataset,feature,n_missing,pct_missing,missing_indicator_auc,adverse_rate_if_missing,flagged,reason
+approval,Gender,6,1.63,0.5071146245059289,0.5,False,
+approval,Married,3,0.82,0.49407114624505927,0.0,False,
+approval,Dependents,7,1.9,0.4988142292490118,0.2857142857142857,False,
+approval,Education,0,0.0,,,False,
+approval,Self_Employed,17,4.62,0.4853754940711463,0.17647058823529413,False,
+approval,ApplicantIncome,0,0.0,,,False,
+approval,CoapplicantIncome,0,0.0,,,False,
+approval,LoanAmount,14,3.8,0.5229249011857707,0.5714285714285714,False,
+approval,Loan_Amount_Term,7,1.9,0.5051383399209487,0.42857142857142855,False,
+approval,Credit_History,27,7.34,0.49090909090909096,0.25925925925925924,False,
+approval,Property_Area,0,0.0,,,False,

@@ -1,0 +1,96 @@
+dataset,attribute,feature,disparity,high_group,low_group,is_sensitive_feature,mean_abs_phi
+<<<<<<< HEAD
+default,Gender,Credit_Score,0.0009086224445811291,Male,Joint,False,0.017227389082194827
+default,Gender,Credit_Worthiness,0.009416008984700313,Sex Not Available,Joint,False,0.03677638424083839
+default,Gender,Gender,0.7706865516462471,Male,Joint,True,0.31366168014201645
+default,Gender,Neg_ammortization,0.04221694005789929,Female,Joint,False,0.19961940367288833
+default,Gender,Region,0.09362652973958871,Sex Not Available,Joint,False,0.07259490537642296
+default,Gender,Secured_by,0.00020033450897850483,Male,Joint,False,0.00013608882775267343
+default,Gender,Security_Type,2.964877180062393e-05,Male,Joint,False,1.9611144054638328e-05
+default,Gender,approv_in_adv,0.003261984154967398,Female,Sex Not Available,False,0.048379056466938415
+default,Gender,business_or_commercial,0.002538981362839482,Female,Male,False,0.016910920094125818
+default,Gender,co-applicant_credit_type,0.6813756531688437,Joint,Female,False,0.47912654873868177
+default,Gender,construction_type,0.0013788695373132941,Male,Joint,False,0.0008999995983270762
+default,Gender,income,0.3581363724586765,Female,Joint,False,0.48683789316278375
+default,Gender,interest_only,0.006597793660586505,Male,Female,False,0.030024143512056768
+default,Gender,loan_amount,0.09583768350177482,Joint,Female,False,0.16030725434044982
+default,Gender,loan_limit,0.011632507448296844,Male,Female,False,0.06770958290451694
+default,Gender,loan_purpose,0.013005607590678887,Joint,Sex Not Available,False,0.09307644271244718
+default,Gender,loan_type,0.010161680756656386,Sex Not Available,Female,False,0.14391946458665417
+default,Gender,lump_sum_payment,0.011402516562985618,Female,Male,False,0.10238396889751042
+default,Gender,occupancy_type,0.005398336863768707,Joint,Sex Not Available,False,0.051276820394339985
+default,Gender,open_credit,0.0009435988713175243,Female,Male,False,0.0019361024734981776
+default,Gender,term,0.013179492070809262,Sex Not Available,Female,False,0.04191558123641633
+default,Gender,total_units,0.0022232842334808647,Female,Joint,False,0.010393684554516393
+default,AgeGroup,Credit_Score,0.0009238987500171501,55+,<=34,False,0.017227389082194827
+default,AgeGroup,Credit_Worthiness,0.00575194622240553,<=34,35-54,False,0.03677638424083839
+default,AgeGroup,Gender,0.025045844840060616,<=34,35-54,False,0.31366168014201645
+default,AgeGroup,Neg_ammortization,0.03749634475280947,<=34,35-54,False,0.19961940367288833
+default,AgeGroup,Region,0.007912794646091608,35-54,<=34,False,0.07259490537642296
+default,AgeGroup,Secured_by,0.00012769919151450586,35-54,<=34,False,0.00013608882775267343
+default,AgeGroup,Security_Type,1.8894528125761255e-05,35-54,55+,False,1.9611144054638328e-05
+default,AgeGroup,approv_in_adv,0.001425618019160589,35-54,<=34,False,0.048379056466938415
+default,AgeGroup,business_or_commercial,0.003939356253556777,<=34,55+,False,0.016910920094125818
+default,AgeGroup,co-applicant_credit_type,0.06633361438290172,55+,<=34,False,0.47912654873868177
+default,AgeGroup,construction_type,0.0008793107560055946,35-54,<=34,False,0.0008999995983270762
+default,AgeGroup,income,0.25215058986075595,55+,35-54,False,0.48683789316278375
+default,AgeGroup,interest_only,0.003963242400836138,55+,<=34,False,0.030024143512056768
+default,AgeGroup,loan_amount,0.07947474157642802,35-54,55+,False,0.16030725434044982
+default,AgeGroup,loan_limit,0.01277899283722181,35-54,<=34,False,0.06770958290451694
+default,AgeGroup,loan_purpose,0.02698900582745587,<=34,55+,False,0.09307644271244718
+default,AgeGroup,loan_type,0.00712095671103057,<=34,55+,False,0.14391946458665417
+default,AgeGroup,lump_sum_payment,0.033643720175976624,55+,<=34,False,0.10238396889751042
+default,AgeGroup,occupancy_type,0.019519865136483718,55+,<=34,False,0.051276820394339985
+default,AgeGroup,open_credit,0.0012361738516317364,<=34,55+,False,0.0019361024734981776
+default,AgeGroup,term,0.012243508282166275,55+,<=34,False,0.04191558123641633
+default,AgeGroup,total_units,0.002320134578697746,<=34,55+,False,0.010393684554516393
+=======
+default,Gender,Credit_Score,0.0038343251850997133,Sex Not Available,Female,False,0.039483254810215314
+default,Gender,Credit_Worthiness,0.006389410600071843,Sex Not Available,Joint,False,0.02150101717321265
+default,Gender,Gender,0.8047136556699669,Male,Joint,True,0.2964819546279576
+default,Gender,Neg_ammortization,0.03169906806821321,Sex Not Available,Joint,False,0.18634006988137905
+default,Gender,Region,0.09671645183003065,Sex Not Available,Joint,False,0.07479580210881484
+default,Gender,Secured_by,0.0,Female,Female,False,0.0
+default,Gender,Security_Type,0.0,Female,Female,False,0.0
+default,Gender,age,0.017723258581202876,Sex Not Available,Male,False,0.052412365766562934
+default,Gender,approv_in_adv,0.004570812238226339,Sex Not Available,Joint,False,0.05812255922033916
+default,Gender,business_or_commercial,0.001447249839768534,Female,Joint,False,0.012990308792479699
+default,Gender,co-applicant_credit_type,0.6996608797444761,Joint,Female,False,0.4981032591509055
+default,Gender,construction_type,0.0,Female,Female,False,0.0
+default,Gender,income,0.39276241530385547,Female,Joint,False,0.45395147289506044
+default,Gender,interest_only,0.0009384053884301418,Female,Sex Not Available,False,0.01961886576974555
+default,Gender,loan_amount,0.09484402321816521,Joint,Female,False,0.18785238606071347
+default,Gender,loan_limit,0.011872400277447629,Joint,Female,False,0.05524609122364187
+default,Gender,loan_purpose,0.020642526816596715,Male,Sex Not Available,False,0.10681058615686653
+default,Gender,loan_type,0.012629365218981298,Sex Not Available,Female,False,0.12258891507404716
+default,Gender,lump_sum_payment,0.01774042147268879,Sex Not Available,Female,False,0.09712231917498476
+default,Gender,occupancy_type,0.0070498045852712115,Male,Sex Not Available,False,0.04760806383629853
+default,Gender,open_credit,0.00018219790109956423,Female,Sex Not Available,False,0.00023140914911481877
+default,Gender,submission_of_application,0.1957017813969664,Sex Not Available,Joint,False,0.205845097095385
+default,Gender,term,0.002277723364022808,Sex Not Available,Female,False,0.01057100679379435
+default,Gender,total_units,0.0053958476452133485,Female,Sex Not Available,False,0.017562713898681998
+default,AgeGroup,Credit_Score,0.00641946837677234,35-54,<=34,False,0.039483254810215314
+default,AgeGroup,Credit_Worthiness,0.007080630015559754,55+,35-54,False,0.02150101717321265
+default,AgeGroup,Gender,0.02096954067806167,<=34,35-54,False,0.2964819546279576
+default,AgeGroup,Neg_ammortization,0.014513034549906238,55+,<=34,False,0.18634006988137905
+default,AgeGroup,Region,0.012678325219599437,35-54,<=34,False,0.07479580210881484
+default,AgeGroup,Secured_by,0.0,35-54,35-54,False,0.0
+default,AgeGroup,Security_Type,0.0,35-54,35-54,False,0.0
+default,AgeGroup,age,0.14884954235788245,35-54,<=34,True,0.052412365766562934
+default,AgeGroup,approv_in_adv,0.007624808096988797,55+,<=34,False,0.05812255922033916
+default,AgeGroup,business_or_commercial,0.0032916351742190196,<=34,55+,False,0.012990308792479699
+default,AgeGroup,co-applicant_credit_type,0.05237700874742085,55+,35-54,False,0.4981032591509055
+default,AgeGroup,construction_type,0.0,35-54,35-54,False,0.0
+default,AgeGroup,income,0.15149370318346012,55+,35-54,False,0.45395147289506044
+default,AgeGroup,interest_only,0.004336604935125108,<=34,35-54,False,0.01961886576974555
+default,AgeGroup,loan_amount,0.08199493966041999,35-54,55+,False,0.18785238606071347
+default,AgeGroup,loan_limit,0.007081036930932226,35-54,<=34,False,0.05524609122364187
+default,AgeGroup,loan_purpose,0.08339485400948984,<=34,55+,False,0.10681058615686653
+default,AgeGroup,loan_type,0.01085109926811069,<=34,55+,False,0.12258891507404716
+default,AgeGroup,lump_sum_payment,0.013214817163795628,<=34,55+,False,0.09712231917498476
+default,AgeGroup,occupancy_type,0.011889875271577758,35-54,<=34,False,0.04760806383629853
+default,AgeGroup,open_credit,0.00021984468748934333,<=34,55+,False,0.00023140914911481877
+default,AgeGroup,submission_of_application,0.11914534110711458,55+,<=34,False,0.205845097095385
+default,AgeGroup,term,0.0035654183692666406,55+,<=34,False,0.01057100679379435
+default,AgeGroup,total_units,0.0012111351777493646,35-54,55+,False,0.017562713898681998
+>>>>>>> 3f1ba31 (Initial commit)

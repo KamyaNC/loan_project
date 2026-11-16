@@ -1,0 +1,64 @@
+dataset,feature,n_missing,pct_missing,missing_indicator_auc,adverse_rate_if_missing,flagged,reason
+<<<<<<< HEAD
+default,loan_limit,2006,2.25,0.5016492121360707,0.27367896311066797,False,
+default,Gender,0,0.0,,,False,
+default,approv_in_adv,538,0.6,0.5002841727181445,0.26394052044609667,False,
+default,loan_type,0,0.0,,,False,
+default,loan_purpose,82,0.09,0.5000842674990494,0.2804878048780488,False,
+=======
+default,loan_limit,294,2.2,0.5001071865644108,0.24829931972789115,False,
+default,Gender,0,0.0,,,False,
+default,approv_in_adv,84,0.63,0.5008641691194665,0.2976190476190476,False,
+default,loan_type,0,0.0,,,False,
+default,loan_purpose,8,0.06,0.5000056540611978,0.25,False,
+>>>>>>> 3f1ba31 (Initial commit)
+default,Credit_Worthiness,0,0.0,,,False,
+default,open_credit,0,0.0,,,False,
+default,business_or_commercial,0,0.0,,,False,
+default,loan_amount,0,0.0,,,False,
+<<<<<<< HEAD
+default,rate_of_interest,21868,24.52,0.9973843424464359,1.0,True,missing-indicator AUC=0.997; adverse rate 100.0% when missing
+default,Interest_rate_spread,21983,24.64,1.0,1.0,True,missing-indicator AUC=1.000; adverse rate 100.0% when missing
+default,Upfront_charges,23764,26.64,0.9842168669510737,0.9215199461370139,True,missing-indicator AUC=0.984; adverse rate 92.2% when missing
+default,term,29,0.03,0.5001766690585296,0.4482758620689655,False,
+default,Neg_ammortization,72,0.08,0.5000982847870981,0.2916666666666667,False,
+default,interest_only,0,0.0,,,False,
+default,lump_sum_payment,0,0.0,,,False,
+default,property_value,9038,10.13,0.7055377556404769,0.999889356052224,True,missing-indicator AUC=0.706; adverse rate 100.0% when missing
+=======
+default,rate_of_interest,3281,24.52,0.9974226804123711,1.0,True,missing-indicator AUC=0.997; adverse rate 100.0% when missing
+default,Interest_rate_spread,3298,24.65,1.0,1.0,True,missing-indicator AUC=1.000; adverse rate 100.0% when missing
+default,Upfront_charges,3582,26.77,0.9830986877886353,0.9168062534896706,True,missing-indicator AUC=0.983; adverse rate 91.7% when missing
+default,term,5,0.04,0.5005568348036098,0.8,False,
+default,Neg_ammortization,12,0.09,0.4998072807225746,0.16666666666666666,False,
+default,interest_only,0,0.0,,,False,
+default,lump_sum_payment,0,0.0,,,False,
+default,property_value,1377,10.29,0.7087628865979382,1.0,True,missing-indicator AUC=0.709; adverse rate 100.0% when missing
+>>>>>>> 3f1ba31 (Initial commit)
+default,construction_type,0,0.0,,,False,
+default,occupancy_type,0,0.0,,,False,
+default,Secured_by,0,0.0,,,False,
+default,total_units,0,0.0,,,False,
+<<<<<<< HEAD
+default,income,5506,6.17,0.48171191707635236,0.1363966581910643,False,
+default,credit_type,0,0.0,,,True,level 'EQUI' has adverse rate 100.00% (n=9152)
+default,Credit_Score,0,0.0,,,False,
+default,co-applicant_credit_type,0,0.0,,,False,
+default,age,115,0.13,0.5026156575535641,1.0,True,adverse rate 100.0% when missing
+default,submission_of_application,115,0.13,0.5026156575535641,1.0,True,adverse rate 100.0% when missing
+default,LTV,9038,10.13,0.7055377556404769,0.999889356052224,True,missing-indicator AUC=0.706; adverse rate 100.0% when missing
+default,Region,0,0.0,,,False,
+default,Security_Type,0,0.0,,,False,
+default,dtir1,14465,16.22,0.687354372648139,0.6755617006567577,True,missing-indicator AUC=0.687
+=======
+default,income,835,6.24,0.48293481023827783,0.14491017964071856,False,
+default,credit_type,0,0.0,,,True,level 'EQUI' has adverse rate 100.00% (n=1394)
+default,Credit_Score,0,0.0,,,False,
+default,co-applicant_credit_type,0,0.0,,,False,
+default,age,17,0.13,0.5025773195876289,1.0,False,
+default,submission_of_application,17,0.13,0.5025773195876289,1.0,False,
+default,LTV,1377,10.29,0.7087628865979382,1.0,True,missing-indicator AUC=0.709; adverse rate 100.0% when missing
+default,Region,0,0.0,,,False,
+default,Security_Type,0,0.0,,,False,
+default,dtir1,2205,16.48,0.6918436498095845,0.6789115646258503,True,missing-indicator AUC=0.692
+>>>>>>> 3f1ba31 (Initial commit)
