@@ -193,7 +193,170 @@ def best_threshold(y, p, ratio):
     return float(THRESHOLDS[int(np.argmin(c))])
 
 
-def ece_score(y, p, n_bins=10):
+def permutation_importance(pipe, X, y, n_permutations=10, seed=SEED):
+    """Permutation importance: model-agnostic feature importance.
+    
+    Permutes each feature and measures the decrease in metric.
+    Works for any classifier model.
+    """
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import roc_auc_score
+    
+    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=seed)
+    pipe.fit(X_tr, y_tr)
+    
+    # Baseline score
+    p_baseline = pipe.predict_proba(X_te)[:, 1]
+    baseline = roc_auc_score(y_te, p_baseline)
+    
+    importances = {}
+    for col in X_te.columns:
+        X_permuted = X_te.copy()
+        X_permuted[col] = np.random.permutation(X_permuted[col].values)
+        p_perm = pipe.predict_proba(X_permuted)[:, 1]
+        perm_score = roc_auc_score(y_te, p_perm)
+        importances[col] = baseline - perm_score  # decrease in AUC
+    
+    return dict(sorted(importances.items(), key=lambda x: x[1], reverse=True))
+
+
+def psi_calc(expected, actual, n_bins=10):
+    """Population Stability Index (PSI) between two distributions.
+    
+    Commonly used in credit risk monitoring to detect distribution shifts.
+    PSI < 0.2: No significant change
+    PSI 0.2-0.25: Moderate change - investigate
+    PSI > 0.25: Significant change - take action
+    """
+    import pandas as pd
+    import numpy as np
+    
+    expected = np.asarray(expected).reshape(-1)
+    actual = np.asarray(actual).reshape(-1)
+    
+    bin_edges = np.linspace(0, 1, n_bins + 1)
+    bin_counts_expected = pd.cut(expected, bins=bin_edges).value_counts().sort_index()
+    bin_counts_actual = pd.cut(actual, bins=bin_edges).value_counts().sort_index()
+    
+    # Convert to proportions, handling missing bins
+    all_bins = pd.Index([f"({bin_edges[i]:.1f}-{bin_edges[i+1]:.1f}]" 
+                         for i in range(n_bins)],
+                        dtype='object')
+    prop_expected = bin_counts_expected.reindex(all_bins, fill_value=0) / len(expected)
+    prop_actual = bin_counts_actual.reindex(all_bins, fill_value=0) / len(actual)
+    
+    # PSI calculation (only bins with expected > 0)
+    psi = 0.0
+    for bin_label in all_bins:
+        pe = prop_expected[bin_label]
+        pa = prop_actual[bin_label]
+        if pe > 0:
+            psi += (pa - pe) * np.log(pa / pe)
+    
+    # Interpretation
+    if psi < 0.2:
+        interpretation = "No significant change"
+    elif psi < 0.25:
+        interpretation = "Moderate change - investigate"
+    else:
+        interpretation = "Significant change - take action"
+    
+    return {
+        "psi": psi,
+        "interpretation": interpretation,
+        "detailed": {
+            "expected_props": prop_expected.to_dict(),
+            "actual_props": prop_actual.to_dict()
+        }
+    }
+
+
+def learning_curve_analysis(pipe, X, y, train_sizes=np.linspace(0.1, 1.0, 5), 
+                            cv=5, seed=SEED):
+    """Learning curve analysis: model performance vs training set size.
+    
+    Returns train/test AUC scores across different training set proportions.
+    """
+    from sklearn.model_selection import learning_curve
+    from sklearn.metrics import roc_auc_score
+    import numpy as np
+    
+    train_sizes, train_scores, test_scores = learning_curve(
+        pipe, X, y, cv=cv, scoring="roc_auc",
+        train_sizes=train_sizes, random_state=seed
+    )
+    
+    return {
+        "train_sizes": train_sizes,
+        "train_mean": np.mean(train_scores, axis=1),
+        "train_std": np.std(train_scores, axis=1),
+        "test_mean": np.mean(test_scores, axis=1),
+        "test_std": np.std(test_scores, axis=1),
+    }
+
+
+def calibration_intercept_slope(y, p):
+    """Calculate calibration intercept and slope.
+    
+    Fits: y = intercept + slope * p (via logistic regression calibration)
+    Ideal: intercept=0, slope=1
+    """
+    import numpy as np
+    
+    p = np.asarray(p).reshape(-1)
+    y = np.asarray(y).reshape(-1)
+    
+    n = len(y)
+    p_mean = p.mean()
+    y_mean = y.mean()
+    
+    # slope = cov(y, p) / var(p)
+    # intercept = y_mean - slope * p_mean
+    cov_lp = ((y - y_mean) * (p - p_mean)).mean()
+    var_p = ((p - p_mean) ** 2).mean()
+    
+    if var_p == 0:
+        return 0.0, 1.0
+    
+    slope = cov_lp / var_p
+    intercept = y_mean - slope * p_mean
+    
+    return float(intercept), float(slope)
+
+
+def decision_curve_analysis(y, p, ratios=range(1, 21)):
+    """Decision Curve Analysis: net benefit across threshold probabilities.
+    
+    Used in medical/credit risk to evaluate clinical usefulness
+    of a model across different risk tolerance levels.
+    """
+    import numpy as np
+    
+    p = np.asarray(p).reshape(-1)
+    y = np.asarray(y).reshape(-1)
+    
+    results = {}
+    for ratio in ratios:
+        best_t = best_threshold(y, p, ratio)
+        # Net benefit = TP/n - ratio * FP/n
+        yhat = (p >= best_t).astype(int)
+        tp = int((yhat & (y == 1)).sum())
+        fp = int((yhat & (y == 0)).sum())
+        n = len(y)
+        net_benefit = tp / n - ratio * fp / n
+        
+        # Also calculate "treat all" and "treat none" baselines
+        net_benefit_treat_all = y.mean() - ratio * (1 - y.mean())
+        net_benefit_treat_none = 0.0
+        
+        results[ratio] = {
+            "best_threshold": best_t,
+            "net_benefit": net_benefit,
+            "net_benefit_treat_all": net_benefit_treat_all,
+            "net_benefit_treat_none": net_benefit_treat_none,
+        }
+    
+    return results
     """Expected Calibration Error: weighted average of |avg_pred - avg_actual| per bin."""
     y = np.asarray(y)
     p = np.asarray(p)
