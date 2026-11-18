@@ -119,25 +119,6 @@ def make_estimator(name, params=None, class_weight=None, seed=SEED):
         return RandomForestClassifier(n_estimators=150, n_jobs=2, class_weight=class_weight,
                                       random_state=seed, **p)
     if name == "LightGBM":
-<<<<<<< HEAD
-        return LGBMClassifier(n_estimators=200,
-                              learning_rate=p.pop("learning_rate", 0.05),
-                              subsample=0.8, subsample_freq=1,
-                              colsample_bytree=0.8, reg_lambda=1.0,
-                              class_weight=class_weight,
-                              random_state=seed, n_jobs=2, verbose=-1, **p)
-    if name == "XGBoost":
-        return XGBClassifier(n_estimators=p.pop("n_estimators", 200),
-                             max_depth=p.pop("max_depth", 6),
-                             learning_rate=p.pop("learning_rate", 0.05),
-                             subsample=0.8, colsample_bytree=0.8, reg_lambda=1.0,
-                             random_state=seed, n_jobs=2, verbosity=0, **p)
-    if name == "CatBoost":
-        return CatBoostClassifier(iterations=p.pop("iterations", 200),
-                                  depth=p.pop("depth", 6),
-                                  learning_rate=p.pop("learning_rate", 0.05),
-                                  random_state=seed, verbose=0, **p)
-=======
         return LGBMClassifier(
             learning_rate=p.pop("learning_rate", 0.05),
             n_estimators=p.pop("n_estimators", 200),
@@ -168,7 +149,6 @@ def make_estimator(name, params=None, class_weight=None, seed=SEED):
             l2_leaf_reg=p.pop("l2_leaf_reg", 1.0),
             border_count=p.pop("border_count", 255),
             random_state=seed, verbose=0, **p)
->>>>>>> 3f1ba31 (Initial commit)
     raise ValueError(name)
 
 
@@ -211,8 +191,6 @@ def cost_curve(y, p, ratio):
 def best_threshold(y, p, ratio):
     c = cost_curve(y, p, ratio)
     return float(THRESHOLDS[int(np.argmin(c))])
-<<<<<<< HEAD
-=======
 
 
 def ece_score(y, p, n_bins=10):
@@ -246,4 +224,36 @@ def reliability_curve(y, p, n_bins=10):
         rows.append(dict(bin=i, mean_pred=float(p[mask].mean()),
                          frac_pos=float(y[mask].mean()), n=int(mask.sum())))
     return pd.DataFrame(rows)
->>>>>>> 3f1ba31 (Initial commit)
+
+
+def ece_score(y, p, n_bins=10):
+    """Expected Calibration Error: weighted average of |avg_pred - avg_actual| per bin."""
+    y = np.asarray(y)
+    p = np.asarray(p)
+    bins = np.linspace(0.0, 1.0, n_bins + 1)
+    ece = 0.0
+    for i in range(n_bins):
+        lo, hi = bins[i], bins[i + 1]
+        mask = (p > lo) & (p <= hi) if i < n_bins - 1 else (p >= lo) & (p <= hi)
+        if mask.sum() == 0:
+            continue
+        bin_conf = p[mask].mean()
+        bin_acc = y[mask].mean()
+        ece += (mask.sum() / len(y)) * abs(bin_conf - bin_acc)
+    return float(ece)
+
+
+def reliability_curve(y, p, n_bins=10):
+    """Returns per-bin mean predicted probability and observed adverse rate."""
+    y = np.asarray(y)
+    p = np.asarray(p)
+    bins = np.linspace(0.0, 1.0, n_bins + 1)
+    rows = []
+    for i in range(n_bins):
+        lo, hi = bins[i], bins[i + 1]
+        mask = (p > lo) & (p <= hi) if i < n_bins - 1 else (p >= lo) & (p <= hi)
+        if mask.sum() == 0:
+            continue
+        rows.append(dict(bin=i, mean_pred=float(p[mask].mean()),
+                         frac_pos=float(y[mask].mean()), n=int(mask.sum())))
+    return pd.DataFrame(rows)
