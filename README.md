@@ -123,7 +123,13 @@ Each script prints a timestamped progress log and ends with `ALL DONE`.
 
 ## 6. Known limitations
 
-* Dataset 2's test split has only 123 rows (19 female applicants), so its test metrics and fairness gaps are noisy.
+* **Sample size of the Dataset 1 baseline tables.** The committed `default_*.csv` baseline tables (grid search over
+  5 models, F_full vs F_clean ablation, CV, cost thresholds, fairness) were produced with `--quick`, i.e. on a
+  stratified 15% sample (22,300 rows; test split 4,460 rows), because the full grid is very slow on a laptop.
+  On that sample the audit flags 7 columns (`age` and `submission_of_application` are not flagged).
+  The extensions (`ext_default_*`), the final pipeline (`improved_default_*`, `models/`), the course diagnostics
+  (`default_course_*`) and `default_leakage_audit.csv` use all 148,670 rows (test split 29,734 rows; 9 flagged columns).
+  Run `python src/run_experiments.py` without `--quick` to rebuild the baseline tables on the full data.* Dataset 2's test split has only 123 rows (19 female applicants), so its test metrics and fairness gaps are noisy.
   Prefer the repeated-CV numbers and the bootstrap intervals.
 * `dtir1`, `age` and `submission_of_application` are flagged by the audit rules and removed in `F_clean`, so
   `F_clean` is a conservative feature set.
