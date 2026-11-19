@@ -16,10 +16,13 @@ cost-sensitive decision thresholds, and TreeSHAP + Fairlearn fairness analysis.
    ```
 
    Then Ctrl+Shift+P > "Python: Select Interpreter" > pick the one in `.venv`.
-3. **See every result, organised:** `python report.py`. It prints nine sections (datasets, leakage audit,
+3. **Train the models yourself:** `python train.py`. It loads the raw CSVs, splits them, runs the leakage audit, trains
+   and compares four models per dataset, picks the cost-optimal threshold, evaluates once on the test split, and saves the
+   final Dataset 1 model to `models/`, printing each step (about 1-2 minutes on a laptop; `--dataset approval` takes seconds).
+4. **See every result, organised:** `python report.py`. It prints nine sections (datasets, leakage audit,
    model comparison, bias-variance, calibration, cost, fairness, key findings, figures) in about a second, using the
    saved results, and writes them to `REPORT.md` (open it and press Ctrl+Shift+V for the formatted view).
-4. **Score new applications with the saved model:** `python src/predict.py --input data/sample_applications.csv --output predictions.csv`.
+5. **Score new applications with the saved model:** `python src/predict.py --input data/sample_applications.csv --output predictions.csv`.
 
 The same runs are one click away in the Run and Debug panel (Ctrl+Shift+D): pick a configuration, press F5.
 Retraining is only needed if you change the code; the committed `results/`, `figures/` and `models/` are the full-run outputs.
@@ -85,6 +88,7 @@ Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the s
 | `src/run_course_models.py` | classical course algorithms with capacity sweeps (train vs validation AUC) and test metrics (`*_coursemodels_*.csv`) |
 | `src/predict.py` | applies the saved pipeline and threshold to new applications |
 | `src/make_figures.py` | all figures, built from the CSVs only |
+| `train.py` | end-to-end training of the final models from the raw CSVs, step by step; saves `models/` |
 | `report.py` | one-command organised summary of every result; writes `REPORT.md` |
 | `demo_results.py` | short summary of the final Dataset 1 pipeline |
 | `run_all.sh` | runs the whole pipeline in order |

@@ -148,7 +148,7 @@ def make_estimator(name, params=None, class_weight=None, seed=SEED):
             learning_rate=p.pop("learning_rate", 0.05),
             l2_leaf_reg=p.pop("l2_leaf_reg", 1.0),
             border_count=p.pop("border_count", 255),
-            random_state=seed, verbose=0, **p)
+            random_state=seed, verbose=0, allow_writing_files=False, **p)
     raise ValueError(name)
 
 
