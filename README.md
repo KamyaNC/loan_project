@@ -32,6 +32,7 @@ python src/run_extensions.py       # 2. engineered features, Optuna-tuned booste
                                    #    significance tests, fairness-constrained thresholds (reads results/*_tuning.csv)
 python src/run_improved.py         # 3. final Dataset 1 pipeline; saves the deployable model to models/
 python src/run_course_methods.py   # 4. permutation importance, PSI, learning curve, calibration slope, decision curves
+python src/run_course_models.py    # 4b. course algorithms: decision tree, L1/L2 LogReg, LDA, Naive Bayes, k-NN, linear/RBF SVM
 python src/make_figures.py         # 5. all figures in figures/, built from the CSVs only
 python demo_results.py             # 6. one-screen summary of the final results (for the presentation)
 ```
@@ -60,6 +61,7 @@ Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the s
 | `src/run_extensions.py` | extensions: engineered ratios, Optuna-tuned LightGBM/XGBoost/CatBoost, stacking, calibration, paired significance tests, cost-optimal decisions under a fairness constraint (`ext_*.csv`) |
 | `src/run_improved.py` | final Dataset 1 pipeline (feature selection, 50+ Optuna trials, stacking/blend, isotonic calibration, cost thresholds vs theory); writes `improved_*.csv` and `models/` |
 | `src/run_course_methods.py` | course diagnostics on each dataset's final model (`*_course_*.csv`) |
+| `src/run_course_models.py` | classical course algorithms with capacity sweeps (train vs validation AUC) and test metrics (`*_coursemodels_*.csv`) |
 | `src/predict.py` | applies the saved pipeline and threshold to new applications |
 | `src/make_figures.py` | all figures, built from the CSVs only |
 | `demo_results.py` | prints a summary table of the final results |
@@ -111,13 +113,22 @@ Run on the headline model of each dataset (chosen by validation AUC; CatBoost on
 17. Calibration intercept and slope from logistic recalibration (ideal 0 and 1).
 18. Decision curve analysis: net benefit vs reject-all / approve-all across threshold probabilities.
 
+## 4d. Course algorithms (`run_course_models.py`)
+
+19. Decision tree (max_depth 1-20), logistic regression with L1 and L2 penalties (C = 0.001-100), LDA (with / without
+    shrinkage), Gaussian Naive Bayes, k-NN (k = 1-201), linear SVM (C) and RBF-kernel SVM (C x gamma), all under the
+    same split, audit and train-only preprocessing. Each knob is chosen on validation AUC, the chosen model is refit on
+    train+val and tested once. On Dataset 1, k-NN and the SVMs use a stratified 20,000-row training sample.
+    Outputs: `*_coursemodels_sweep.csv` (train vs validation AUC per setting) and `*_coursemodels_test.csv`;
+    figure `fig_course_models_bias_variance`.
+
 ## 5. Expected outputs
 
 `results/` holds one CSV per table named `<dataset>_<table>.csv` (`default` = Dataset 1, `approval` = Dataset 2),
 plus `ext_*` (extensions), `improved_*` (final Dataset 1 pipeline) and `*_course_*` (course diagnostics).
 Test-set accuracy, precision, recall, F1, AUC and MCC are in `*_test_metrics.csv`.
 `figures/` holds `fig_leakage_audit`, `fig_ablation`, `fig_cost_curves`, `fig_learning_curves`, `fig_regularisation`,
-`fig_shap_disparity_*`, `fig_calibration`, `fig_policy_comparison`, `fig_permutation_importance` and `fig_decision_curve`.
+`fig_shap_disparity_*`, `fig_calibration`, `fig_policy_comparison`, `fig_permutation_importance`, `fig_decision_curve` and `fig_course_models_bias_variance`.
 `models/` holds the fitted final pipeline, its feature list, the 10:1 threshold and `model_metadata.json`.
 Each script prints a timestamped progress log and ends with `ALL DONE`.
 

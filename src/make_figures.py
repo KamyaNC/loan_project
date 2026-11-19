@@ -260,6 +260,48 @@ def fig_decision_curve():
     save(fig, "fig_decision_curve")
 
 
+# ---------------------------------------------------------------- 9. course models (run_course_models.py outputs)
+def fig_course_models():
+    """Train vs validation AUC across each classical model's capacity knob (bias-variance, regularisation)."""
+    panels = [("DecisionTree", "tree depth (more = more complex)", False),
+              ("LogReg", "C = 1/regularisation strength", True),
+              ("kNN", "k neighbours (more = simpler)", True),
+              ("LinearSVM", "C (more = narrower margin)", True)]
+    fig, axes = plt.subplots(2, 4, figsize=(12.4, 5.8))
+    for r, ds in enumerate(["default", "approval"]):
+        sw = rd(f"{ds}_coursemodels_sweep")
+        for c, (fam, xlab, logx) in enumerate(panels):
+            ax = axes[r, c]
+            fams = ["LogReg-L2", "LogReg-L1"] if fam == "LogReg" else [fam]
+            for f, col in zip(fams, [BLUE, ORANGE]):
+                d = sw[sw.model == f].copy()
+                d["x"] = d.value.astype(float)
+                d = d.sort_values("x")
+                lab = f.split("-")[-1] if fam == "LogReg" else None
+                ax.plot(d.x, d.train_auc, color=col, ls="--", lw=1.3)
+                ax.plot(d.x, d.val_auc, color=col, lw=1.8, marker="o", ms=3.5, label=lab)
+                b = d.loc[d.val_auc.idxmax()]
+                ax.plot([b.x], [b.val_auc], "o", ms=8, mfc="none", mec=INK, mew=1.2)
+            if logx:
+                ax.set_xscale("log")
+            ax.set_xlabel(xlab, fontsize=8)
+            if r == 0:
+                ax.set_title(fam if fam != "LogReg" else "LogReg: L1 vs L2", fontsize=9)
+            if c == 0:
+                ax.set_ylabel(f"{TITLES[ds].split(':')[0]}\nAUC", fontsize=9)
+            if fam == "LogReg":
+                ax.legend(fontsize=7.5, loc="lower right")
+    from matplotlib.lines import Line2D
+    h = [Line2D([], [], color=INK, ls="--", lw=1.3, label="train"),
+         Line2D([], [], color=INK, lw=1.8, label="validation"),
+         Line2D([], [], color=INK, marker="o", ls="", mfc="none", ms=8, label="chosen (best validation)")]
+    fig.legend(handles=h, loc="lower center", ncol=3, fontsize=8.5, bbox_to_anchor=(0.5, -0.02))
+    fig.suptitle("Underfitting to overfitting: train vs validation AUC across each model's capacity knob",
+                 fontsize=10, fontweight="bold", y=1.0)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    save(fig, "fig_course_models_bias_variance")
+
+
 if __name__ == "__main__":
     for f in (fig_leakage, fig_ablation, fig_cost, fig_learning, fig_regularisation, fig_shap):
         f()
@@ -269,3 +311,5 @@ if __name__ == "__main__":
     if os.path.exists(f"{RES}/default_course_decision_curve.csv"):  # written by run_course_methods.py
         fig_permutation()
         fig_decision_curve()
+    if os.path.exists(f"{RES}/default_coursemodels_sweep.csv"):     # written by run_course_models.py
+        fig_course_models()

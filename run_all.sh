@@ -6,5 +6,6 @@ python src/run_experiments.py "$@"     # baseline experiments  -> results/*.csv
 python src/run_extensions.py "$@"      # extensions (needs the baseline tuning CSVs) -> results/ext_*.csv
 python src/run_improved.py "$@"        # final Dataset 1 pipeline -> results/improved_*.csv, models/
 python src/run_course_methods.py "$@"  # course diagnostics -> results/*_course_*.csv
+python src/run_course_models.py "$@"   # course algorithms (tree, LDA, NB, k-NN, SVM) -> results/*_coursemodels_*.csv
 python src/make_figures.py             # figures -> figures/*.png
 echo "Done. See results/, figures/ and models/"
