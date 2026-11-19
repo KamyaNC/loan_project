@@ -296,22 +296,13 @@ def main():
                 lambda cols, flagged: {"F_full": cols, "F_noCreditHistory": [c for c in cols if c != "Credit_History"]},
                 headline="F_full", n_rep=5)
 
-<<<<<<< HEAD
-    # Dataset 1 (large): leakage-filtered F_clean only (columns flagged by the audit are removed;
-    # F_full is intentionally excluded because it contains post-outcome leakage columns)
-=======
     # Dataset 1 (large): F_full (includes the 9 leaking columns, evidence that the audit works)
     #                    vs F_clean (audit-flagged columns removed; headline feature set)
->>>>>>> 3f1ba31 (Initial commit)
     X, y = load_default(os.path.join(a.data, "Loan_Default.csv"))
     if a.quick:
         X, _, y, _ = train_test_split(X, y, train_size=0.15, stratify=y, random_state=SEED)
     run_dataset("default", X, y,
-<<<<<<< HEAD
-                lambda cols, flagged: {"F_clean": [c for c in cols if c not in flagged]},
-=======
                 lambda cols, flagged: {"F_full": cols, "F_clean": [c for c in cols if c not in flagged]},
->>>>>>> 3f1ba31 (Initial commit)
                 headline="F_clean", n_rep=1)
     log("ALL DONE")
 

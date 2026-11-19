@@ -15,27 +15,55 @@ in `data/`. Use `python src/run_experiments.py --data <folder>` to read the CSVs
 
 ## 2. Setup and run
 
+Dependencies (all in `requirements.txt`, Python 3.10+): numpy, pandas, scipy, scikit-learn >= 1.4, imbalanced-learn,
+lightgbm, xgboost, catboost, optuna, shap, fairlearn, matplotlib.
+
 ```bash
 python -m venv .venv && source .venv/bin/activate      # optional
-pip install -r requirements.txt                        # Python 3.10+
-python src/run_experiments.py                          # ~4-5 min on 2 CPU cores, writes results/*.csv
-python src/run_extensions.py                           # ~10 min: engineered features, XGBoost/CatBoost/Optuna/stacking,
-                                                       #   calibration, significance tests, fairness-constrained thresholds
-python src/make_figures.py                             # writes figures/*.png (run after both experiment scripts)
-python src/run_experiments.py --quick                  # 1-minute smoke test (15% of Dataset 1)
-python src/run_extensions.py --quick                   # 1-minute smoke test of the extensions
+pip install -r requirements.txt
+bash run_all.sh                                        # everything below, in the right order
 ```
 
-Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the same tables.
+Or step by step (order matters: later scripts read earlier results):
+
+```bash
+python src/run_experiments.py      # 1. baseline: leakage audit, ablation, 5 models, CV, cost thresholds, fairness
+python src/run_extensions.py       # 2. engineered features, Optuna-tuned boosters, stacking, calibration,
+                                   #    significance tests, fairness-constrained thresholds (reads results/*_tuning.csv)
+python src/run_improved.py         # 3. final Dataset 1 pipeline; saves the deployable model to models/
+python src/run_course_methods.py   # 4. permutation importance, PSI, learning curve, calibration slope, decision curves
+python src/make_figures.py         # 5. all figures in figures/, built from the CSVs only
+python demo_results.py             # 6. one-screen summary of the final results (for the presentation)
+```
+
+Every experiment script accepts `--quick` (15% sample of Dataset 1, fewer trials) for a 1-2 minute smoke test, and
+`--data <folder>` to read the CSVs from another folder. The full baseline run tunes 5 models x 12 grid points on
+148k rows and is slow on a 2-core laptop (CatBoost/XGBoost at depth 12 dominate); the committed `results/` already
+contain the full-run outputs, so `make_figures.py` and `demo_results.py` work without re-running anything.
+**Note:** `--quick` writes to the same `results/` files, so run it on a copy if you want to keep the full-run tables.
+
+Scoring new applications with the saved model:
+
+```bash
+python src/predict.py --input data/new_applications.csv --output predictions.csv   # uses the 10:1 threshold
+```
+
+Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the same tables
+(tiny differences can appear across library versions / thread counts for tree ensembles).
 
 ## 3. Code layout
 
 | File | Purpose |
 |---|---|
-| `src/common.py` | loading, 60/20/20 split, leakage audit, preprocessing, models and grids, metrics, cost function |
+| `src/common.py` | loading, 60/20/20 split, leakage audit, preprocessing, models and grids, metrics, cost function, course diagnostics (permutation importance, PSI, learning curve, calibration slope, decision curve) |
 | `src/run_experiments.py` | baseline experiments (leakage audit, ablation, cost thresholds, fairness), one CSV per table |
-| `src/run_extensions.py` | extensions: engineered ratios, Optuna-tuned LightGBM/XGBoost/CatBoost, stacking, calibration, paired significance tests, cost-optimal decisions under a fairness constraint (`ext_*.csv`); run it after `run_experiments.py`, since it reads the tuned settings from `results/*_tuning.csv` |
+| `src/run_extensions.py` | extensions: engineered ratios, Optuna-tuned LightGBM/XGBoost/CatBoost, stacking, calibration, paired significance tests, cost-optimal decisions under a fairness constraint (`ext_*.csv`) |
+| `src/run_improved.py` | final Dataset 1 pipeline (feature selection, 50+ Optuna trials, stacking/blend, isotonic calibration, cost thresholds vs theory); writes `improved_*.csv` and `models/` |
+| `src/run_course_methods.py` | course diagnostics on each dataset's final model (`*_course_*.csv`) |
+| `src/predict.py` | applies the saved pipeline and threshold to new applications |
 | `src/make_figures.py` | all figures, built from the CSVs only |
+| `demo_results.py` | prints a summary table of the final results |
+| `run_all.sh` | runs the whole pipeline in order |
 
 ## 4. Protocol (same for both datasets)
 
@@ -47,7 +75,7 @@ Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the s
 3. Imputation (median plus missing indicators / constant), scaling and one-hot encoding live inside a scikit-learn
    `Pipeline`, so they are fitted on training data only. SMOTE (when used) is inside an imbalanced-learn pipeline,
    so it only touches training folds.
-4. Models: Logistic Regression (L2), Random Forest, LightGBM. Hyper-parameters are chosen on the validation split.
+4. Models: Logistic Regression (L2), Random Forest, LightGBM, XGBoost, CatBoost. Hyper-parameters are chosen on the validation split.
    Train and validation AUC are both logged (`*_tuning.csv`) to show the bias-variance / regularisation trade-off.
 5. Stability: stratified 5-fold CV on train+val (5 repeats for Dataset 2, 1 for Dataset 1) -> `*_cv.csv` (mean and sd).
 6. Final model = best configuration refit on train+val, evaluated once on the untouched test split -> `*_test_metrics.csv`.
@@ -72,11 +100,26 @@ with that history, not money saved.
     P3 per-group thresholds with equal recall (`ext_*_policy_comparison.csv`). Group thresholds use the protected attribute and are a
     measurement of the price of parity, not a deployment recommendation.
 
+## 4c. Course diagnostics (`run_course_methods.py`)
+
+Run on the headline model of each dataset (chosen by validation AUC; CatBoost on Dataset 1, LogReg on Dataset 2):
+
+14. Permutation importance: drop in test AUC when one column is shuffled (repeated, seeded).
+15. Population Stability Index: score PSI (validation vs test scores of a train-only model) and per-feature PSI
+    (train vs test). Rule of thumb: < 0.10 stable, 0.10-0.25 moderate, > 0.25 significant shift.
+16. Learning curve: train vs cross-validated AUC as the training set grows (bias-variance diagnosis).
+17. Calibration intercept and slope from logistic recalibration (ideal 0 and 1).
+18. Decision curve analysis: net benefit vs reject-all / approve-all across threshold probabilities.
+
 ## 5. Expected outputs
 
-`results/` holds one CSV per table named `<dataset>_<table>.csv` (`default` = Dataset 1, `approval` = Dataset 2).
+`results/` holds one CSV per table named `<dataset>_<table>.csv` (`default` = Dataset 1, `approval` = Dataset 2),
+plus `ext_*` (extensions), `improved_*` (final Dataset 1 pipeline) and `*_course_*` (course diagnostics).
+Test-set accuracy, precision, recall, F1, AUC and MCC are in `*_test_metrics.csv`.
 `figures/` holds `fig_leakage_audit`, `fig_ablation`, `fig_cost_curves`, `fig_learning_curves`, `fig_regularisation`,
-`fig_shap_disparity_*`, `fig_calibration` and `fig_policy_comparison`. The console prints a timestamped progress log and ends with `ALL DONE`.
+`fig_shap_disparity_*`, `fig_calibration`, `fig_policy_comparison`, `fig_permutation_importance` and `fig_decision_curve`.
+`models/` holds the fitted final pipeline, its feature list, the 10:1 threshold and `model_metadata.json`.
+Each script prints a timestamped progress log and ends with `ALL DONE`.
 
 ## 6. Known limitations
 

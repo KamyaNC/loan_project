@@ -1,0 +1,6 @@
+dataset,variable,kind,psi,interpretation
+approval,model_score,score,0.07947031674775301,stable
+approval,ApplicantIncome,feature,0.19162388079095388,moderate shift - investigate
+approval,CoapplicantIncome,feature,0.024945979825087814,stable
+approval,LoanAmount,feature,0.16403468174395908,moderate shift - investigate
+approval,Loan_Amount_Term,feature,0.026477834965374866,stable

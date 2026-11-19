@@ -3,19 +3,11 @@ approval,F_full,LogReg,{'C': 0.01},0.7977315689981096,0.7982295482295483
 approval,F_full,LogReg,{'C': 0.1},0.8109297130091081,0.8098290598290598
 approval,F_full,LogReg,{'C': 1.0},0.8153978346794981,0.8098290598290598
 approval,F_full,LogReg,{'C': 10.0},0.8156727960130605,0.8055555555555556
-approval,F_full,RandForest,"{'max_depth': 6, 'min_samples_leaf': 5}",0.9334593572778828,0.7881562881562882
+approval,F_full,RandForest,"{'max_depth': 6, 'min_samples_leaf': 5}",0.9339749097783124,0.7896825396825397
 approval,F_full,RandForest,"{'max_depth': 6, 'min_samples_leaf': 20}",0.8654407973878674,0.775946275946276
-approval,F_full,RandForest,"{'max_depth': 12, 'min_samples_leaf': 5}",0.9555593744629661,0.7942612942612942
+approval,F_full,RandForest,"{'max_depth': 12, 'min_samples_leaf': 5}",0.9551813026293177,0.7976190476190476
 approval,F_full,RandForest,"{'max_depth': 12, 'min_samples_leaf': 20}",0.8653376868877815,0.7765567765567766
-<<<<<<< HEAD
-approval,F_full,LightGBM,"{'num_leaves': 7, 'min_child_samples': 20}",0.9770750988142292,0.7783882783882784
-approval,F_full,LightGBM,"{'num_leaves': 7, 'min_child_samples': 50}",0.9111531190926275,0.7861721611721612
-approval,F_full,LightGBM,"{'num_leaves': 15, 'min_child_samples': 20}",0.9905825743254855,0.7902930402930404
-approval,F_full,LightGBM,"{'num_leaves': 15, 'min_child_samples': 50}",0.9111531190926275,0.7861721611721612
-approval,F_full,LightGBM,"{'num_leaves': 31, 'min_child_samples': 20}",0.9905825743254855,0.7902930402930404
-approval,F_full,LightGBM,"{'num_leaves': 31, 'min_child_samples': 50}",0.9111531190926275,0.7861721611721612
-=======
-approval,F_full,RandForest,"{'max_depth': None, 'min_samples_leaf': 5}",0.9562467777968724,0.7967032967032966
+approval,F_full,RandForest,"{'max_depth': None, 'min_samples_leaf': 5}",0.9555937446296615,0.7982295482295482
 approval,F_full,RandForest,"{'max_depth': None, 'min_samples_leaf': 20}",0.8653376868877815,0.7765567765567766
 approval,F_full,LightGBM,"{'num_leaves': 15, 'min_child_samples': 20, 'learning_rate': 0.05}",0.9905825743254855,0.7902930402930404
 approval,F_full,LightGBM,"{'num_leaves': 15, 'min_child_samples': 20, 'learning_rate': 0.1}",0.9993125966660937,0.8009768009768009
@@ -29,48 +21,39 @@ approval,F_full,LightGBM,"{'num_leaves': 63, 'min_child_samples': 20, 'learning_
 approval,F_full,LightGBM,"{'num_leaves': 63, 'min_child_samples': 20, 'learning_rate': 0.1}",0.9993125966660937,0.8009768009768009
 approval,F_full,LightGBM,"{'num_leaves': 63, 'min_child_samples': 50, 'learning_rate': 0.05}",0.9111531190926275,0.7861721611721612
 approval,F_full,LightGBM,"{'num_leaves': 63, 'min_child_samples': 50, 'learning_rate': 0.1}",0.9440453686200377,0.7800671550671551
-approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 200}",0.9930572263275477,0.797008547008547
-approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.7957875457875457
-approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 200}",0.9998968894999141,0.8040293040293041
-approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.8000610500610501
-approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.7881562881562881
-approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.789072039072039
-approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.7866300366300367
-approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.782967032967033
-approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.7872405372405372
-approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.7875457875457875
-approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.7918192918192918
-approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.7905982905982907
-approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 200}",0.990651314658876,0.7970085470085471
-approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 500}",0.9997250386664375,0.7884615384615384
-approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 200}",0.9992094861660079,0.7698412698412698
-approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.7725885225885225
-approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.8156288156288156
-approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.8067765567765568
-approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.7960927960927962
-approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.7991452991452992
-approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.7878510378510379
-approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.7930402930402931
-approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.8144078144078144
-approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.8113553113553115
->>>>>>> 3f1ba31 (Initial commit)
+approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 200}",0.9928510053273758,0.8089133089133088
+approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.8003663003663004
+approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 200}",0.9997594088331329,0.8046398046398047
+approval,F_full,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.7927350427350427
+approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.8034188034188033
+approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.7970085470085471
+approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.7872405372405372
+approval,F_full,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.7832722832722833
+approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.7997557997557998
+approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.7912087912087913
+approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.782967032967033
+approval,F_full,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.7811355311355311
+approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 200}",0.9949132153290943,0.7905982905982907
+approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.7985347985347985
+approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 200}",0.9996219281663516,0.7847985347985348
+approval,F_full,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.7872405372405373
+approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.7881562881562881
+approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.7875457875457876
+approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.7747252747252747
+approval,F_full,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.7722832722832723
+approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.7954822954822955
+approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.797924297924298
+approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.7951770451770452
+approval,F_full,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.7967032967032968
 approval,F_noCreditHistory,LogReg,{'C': 0.01},0.6390101391991752,0.5699023199023199
 approval,F_noCreditHistory,LogReg,{'C': 0.1},0.6515552500429628,0.5900488400488401
 approval,F_noCreditHistory,LogReg,{'C': 1.0},0.6640316205533597,0.5879120879120879
 approval,F_noCreditHistory,LogReg,{'C': 10.0},0.6702526207252104,0.5808913308913309
-approval,F_noCreditHistory,RandForest,"{'max_depth': 6, 'min_samples_leaf': 5}",0.8804949304004124,0.5699023199023199
+approval,F_noCreditHistory,RandForest,"{'max_depth': 6, 'min_samples_leaf': 5}",0.8810792232342327,0.5692918192918193
 approval,F_noCreditHistory,RandForest,"{'max_depth': 6, 'min_samples_leaf': 20}",0.7316205533596837,0.5717338217338217
-approval,F_noCreditHistory,RandForest,"{'max_depth': 12, 'min_samples_leaf': 5}",0.9164117545970097,0.5802808302808302
+approval,F_noCreditHistory,RandForest,"{'max_depth': 12, 'min_samples_leaf': 5}",0.9166867159305722,0.5784493284493285
 approval,F_noCreditHistory,RandForest,"{'max_depth': 12, 'min_samples_leaf': 20}",0.7317924041931604,0.5717338217338217
-<<<<<<< HEAD
-approval,F_noCreditHistory,LightGBM,"{'num_leaves': 7, 'min_child_samples': 20}",0.9483760096236467,0.5931013431013431
-approval,F_noCreditHistory,LightGBM,"{'num_leaves': 7, 'min_child_samples': 50}",0.8188004811823338,0.5996642246642246
-approval,F_noCreditHistory,LightGBM,"{'num_leaves': 15, 'min_child_samples': 20}",0.9778484275648738,0.5854700854700855
-approval,F_noCreditHistory,LightGBM,"{'num_leaves': 15, 'min_child_samples': 50}",0.8188004811823338,0.5996642246642246
-approval,F_noCreditHistory,LightGBM,"{'num_leaves': 31, 'min_child_samples': 20}",0.9778484275648738,0.5854700854700855
-approval,F_noCreditHistory,LightGBM,"{'num_leaves': 31, 'min_child_samples': 50}",0.8188004811823338,0.5996642246642246
-=======
-approval,F_noCreditHistory,RandForest,"{'max_depth': None, 'min_samples_leaf': 5}",0.9163086440969239,0.5796703296703297
+approval,F_noCreditHistory,RandForest,"{'max_depth': None, 'min_samples_leaf': 5}",0.916652345763877,0.57997557997558
 approval,F_noCreditHistory,RandForest,"{'max_depth': None, 'min_samples_leaf': 20}",0.7317924041931604,0.5717338217338217
 approval,F_noCreditHistory,LightGBM,"{'num_leaves': 15, 'min_child_samples': 20, 'learning_rate': 0.05}",0.9778484275648738,0.5854700854700855
 approval,F_noCreditHistory,LightGBM,"{'num_leaves': 15, 'min_child_samples': 20, 'learning_rate': 0.1}",0.9969238700807699,0.5808913308913308
@@ -84,28 +67,27 @@ approval,F_noCreditHistory,LightGBM,"{'num_leaves': 63, 'min_child_samples': 20,
 approval,F_noCreditHistory,LightGBM,"{'num_leaves': 63, 'min_child_samples': 20, 'learning_rate': 0.1}",0.9969238700807699,0.5808913308913308
 approval,F_noCreditHistory,LightGBM,"{'num_leaves': 63, 'min_child_samples': 50, 'learning_rate': 0.05}",0.8188004811823338,0.5996642246642246
 approval,F_noCreditHistory,LightGBM,"{'num_leaves': 63, 'min_child_samples': 50, 'learning_rate': 0.1}",0.8771610242309676,0.5914224664224664
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 200}",0.9923354528269461,0.5949328449328449
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 500}",0.9999656298333047,0.612942612942613
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 200}",0.9999312596666095,0.5985958485958486
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.6089743589743589
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.611111111111111
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.6214896214896215
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.6092796092796093
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.6184371184371185
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.605921855921856
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 200}",0.9919917511599932,0.5836385836385837
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.05, 'n_estimators': 500}",0.9999656298333047,0.5961538461538461
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 200}",0.9997250386664375,0.5918803418803419
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 4, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.6025641025641025
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.615995115995116
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.6196581196581197
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.6095848595848596
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 8, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.6077533577533578
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 200}",1.0,0.6068376068376069
 approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.05, 'n_estimators': 500}",1.0,0.6050061050061051
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.6101953601953602
-approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.6065323565323565
-approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 200}",0.9627083691355903,0.568070818070818
-approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 500}",0.9996906684997422,0.5918803418803419
-approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 200}",0.9972503866643754,0.5927960927960928
-approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.6211843711843712
-approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.6190476190476191
-approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.6043956043956044
-approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.6016483516483516
-approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.5973748473748475
-approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.5842490842490842
-approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.5836385836385837
-approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.5934065934065934
-approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.5915750915750916
->>>>>>> 3f1ba31 (Initial commit)
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 200}",1.0,0.615995115995116
+approval,F_noCreditHistory,XGBoost,"{'max_depth': 12, 'learning_rate': 0.1, 'n_estimators': 500}",1.0,0.6202686202686203
+approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 200}",0.9719539439766283,0.5927960927960928
+approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.6105006105006104
+approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 200}",0.9986251933321877,0.5961538461538461
+approval,F_noCreditHistory,CatBoost,"{'depth': 4, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.6071428571428572
+approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.5955433455433455
+approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.5912698412698413
+approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.5888278388278388
+approval,F_noCreditHistory,CatBoost,"{'depth': 8, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.5897435897435898
+approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 200}",1.0,0.5723443223443223
+approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.05, 'iterations': 500}",1.0,0.5766178266178266
+approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 200}",1.0,0.5885225885225884
+approval,F_noCreditHistory,CatBoost,"{'depth': 12, 'learning_rate': 0.1, 'iterations': 500}",1.0,0.5931013431013431

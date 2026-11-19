@@ -65,6 +65,7 @@ def add_features(X, ds):
 
 # ============================================================================ models
 def build(name, params=None, seed=SEED):
+    """Estimator factory for the extension runs. Baseline defaults are set here; tuned params override them."""
     p = dict(params or {})
     if name == "LightGBM":
         from lightgbm import LGBMClassifier
@@ -85,10 +86,13 @@ def build(name, params=None, seed=SEED):
 
 
 def pipe_for(X, name, params=None):
+    """Preprocessing (fitted on training rows only) followed by the estimator."""
     return Pipeline([("pre", make_preprocessor(X)), ("clf", build(name, params))])
 
 
 def space(name, tr):
+    """Optuna search space per booster. Ranges are kept moderate (depth <= 8, explicit L2 penalty)
+    so that tuning trades off bias and variance rather than simply growing deeper trees."""
     if name == "LightGBM":
         return dict(num_leaves=tr.suggest_int("num_leaves", 7, 63), min_child_samples=tr.suggest_int("min_child_samples", 10, 100),
                     learning_rate=tr.suggest_float("learning_rate", 0.02, 0.15, log=True),
@@ -122,17 +126,21 @@ def optuna_tune(name, Xtr, ytr, Xva, yva, n_trials, ds):
 
 
 def ece(y, p, bins=10):
+    """Expected Calibration Error with 10 equal-width probability bins."""
     y, p = np.asarray(y), np.asarray(p)
     idx = np.minimum((p * bins).astype(int), bins - 1)
     return sum((idx == b).mean() * abs(y[idx == b].mean() - p[idx == b].mean()) for b in range(bins) if (idx == b).any())
 
 
 def prob_metrics(y, p):
+    """Ranking (AUC) and probability-quality metrics (Brier, log loss, ECE)."""
     return dict(auc=roc_auc_score(y, p), brier=brier_score_loss(y, p), logloss=log_loss(y, np.clip(p, 1e-6, 1 - 1e-6)),
                 ece=ece(y, p))
 
 
 def oof_predict(X, y, name, params, seed=SEED):
+    """Out-of-fold probabilities from 5-fold CV: every row is scored by a model that never saw it.
+    These are what calibration and threshold selection are fitted on (never the test split)."""
     o = np.zeros(len(y))
     for tr, te in StratifiedKFold(5, shuffle=True, random_state=seed).split(X, y):
         o[te] = pipe_for(X, name, params).fit(X.iloc[tr], y.iloc[tr]).predict_proba(X.iloc[te])[:, 1]
@@ -152,6 +160,8 @@ def corrected_t(diffs, n_train, n_test):
 
 
 def significance(Xdev, ydev, cfgs, n_rep, ds):
+    """Paired comparison: all models are scored on IDENTICAL folds, the best mean-AUC model is the reference,
+    each other model is tested with the corrected t-test, and p-values are Holm-adjusted for multiple testing."""
     folds = []
     for r in range(n_rep):
         for f, (tr, te) in enumerate(StratifiedKFold(5, shuffle=True, random_state=SEED + r).split(Xdev, ydev)):

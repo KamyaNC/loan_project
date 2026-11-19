@@ -193,202 +193,119 @@ def best_threshold(y, p, ratio):
     return float(THRESHOLDS[int(np.argmin(c))])
 
 
+# ----------------------------------------------------------------------------- course methods
+# Diagnostics covered in the course. All of them take an ALREADY FITTED model (or its scores) and an
+# evaluation split, so none of them can leak test information into training.
+
 def permutation_importance(pipe, X, y, n_permutations=10, seed=SEED):
-    """Permutation importance: model-agnostic feature importance.
-    
-    Permutes each feature and measures the decrease in metric.
-    Works for any classifier model.
+    """Model-agnostic permutation importance on a held-out split.
+
+    `pipe` must already be fitted on training data. Each raw input column of X is shuffled
+    `n_permutations` times (seeded) and the drop in AUC is recorded. A large drop means the model
+    relies on that column; a drop near zero (or negative) means the column adds nothing.
+    Returns a DataFrame sorted by mean importance.
     """
-    from sklearn.model_selection import train_test_split
-    from sklearn.metrics import roc_auc_score
-    
-    X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=seed)
-    pipe.fit(X_tr, y_tr)
-    
-    # Baseline score
-    p_baseline = pipe.predict_proba(X_te)[:, 1]
-    baseline = roc_auc_score(y_te, p_baseline)
-    
-    importances = {}
-    for col in X_te.columns:
-        X_permuted = X_te.copy()
-        X_permuted[col] = np.random.permutation(X_permuted[col].values)
-        p_perm = pipe.predict_proba(X_permuted)[:, 1]
-        perm_score = roc_auc_score(y_te, p_perm)
-        importances[col] = baseline - perm_score  # decrease in AUC
-    
-    return dict(sorted(importances.items(), key=lambda x: x[1], reverse=True))
+    rng = np.random.default_rng(seed)
+    y = np.asarray(y)
+    baseline = roc_auc_score(y, pipe.predict_proba(X)[:, 1])
+    rows = []
+    for col in X.columns:
+        drops = []
+        for _ in range(n_permutations):
+            Xp = X.copy()
+            Xp[col] = rng.permutation(Xp[col].values)       # break the link between col and y
+            drops.append(baseline - roc_auc_score(y, pipe.predict_proba(Xp)[:, 1]))
+        rows.append(dict(feature=col, importance_mean=float(np.mean(drops)),
+                         importance_sd=float(np.std(drops, ddof=1)) if n_permutations > 1 else 0.0))
+    out = pd.DataFrame(rows).sort_values("importance_mean", ascending=False).reset_index(drop=True)
+    out.attrs["baseline_auc"] = baseline
+    return out
 
 
-def psi_calc(expected, actual, n_bins=10):
-    """Population Stability Index (PSI) between two distributions.
-    
-    Commonly used in credit risk monitoring to detect distribution shifts.
-    PSI < 0.2: No significant change
-    PSI 0.2-0.25: Moderate change - investigate
-    PSI > 0.25: Significant change - take action
+def psi_calc(expected, actual, n_bins=10, eps=1e-4):
+    """Population Stability Index between a reference sample (`expected`, e.g. training scores)
+    and a new sample (`actual`, e.g. test or production scores).
+
+        PSI = sum_b (a_b - e_b) * ln(a_b / e_b)
+
+    Bins are deciles of the EXPECTED sample (the usual credit-risk convention), so the function works
+    for model scores and for raw numeric features. Empty bins are floored at `eps` to avoid log(0).
+    Rule of thumb: PSI < 0.10 stable, 0.10-0.25 moderate shift, > 0.25 significant shift.
     """
-    import pandas as pd
-    import numpy as np
-    
-    expected = np.asarray(expected).reshape(-1)
-    actual = np.asarray(actual).reshape(-1)
-    
-    bin_edges = np.linspace(0, 1, n_bins + 1)
-    bin_counts_expected = pd.cut(expected, bins=bin_edges).value_counts().sort_index()
-    bin_counts_actual = pd.cut(actual, bins=bin_edges).value_counts().sort_index()
-    
-    # Convert to proportions, handling missing bins
-    all_bins = pd.Index([f"({bin_edges[i]:.1f}-{bin_edges[i+1]:.1f}]" 
-                         for i in range(n_bins)],
-                        dtype='object')
-    prop_expected = bin_counts_expected.reindex(all_bins, fill_value=0) / len(expected)
-    prop_actual = bin_counts_actual.reindex(all_bins, fill_value=0) / len(actual)
-    
-    # PSI calculation (only bins with expected > 0)
-    psi = 0.0
-    for bin_label in all_bins:
-        pe = prop_expected[bin_label]
-        pa = prop_actual[bin_label]
-        if pe > 0:
-            psi += (pa - pe) * np.log(pa / pe)
-    
-    # Interpretation
-    if psi < 0.2:
-        interpretation = "No significant change"
+    e = np.asarray(expected, dtype=float).reshape(-1)
+    a = np.asarray(actual, dtype=float).reshape(-1)
+    e, a = e[~np.isnan(e)], a[~np.isnan(a)]
+    edges = np.unique(np.quantile(e, np.linspace(0, 1, n_bins + 1)))
+    edges[0], edges[-1] = -np.inf, np.inf                   # catch values outside the reference range
+    pe = np.histogram(e, bins=edges)[0] / len(e)
+    pa = np.histogram(a, bins=edges)[0] / len(a)
+    pe, pa = np.clip(pe, eps, None), np.clip(pa, eps, None)
+    psi = float(np.sum((pa - pe) * np.log(pa / pe)))
+    if psi < 0.10:
+        interpretation = "stable"
     elif psi < 0.25:
-        interpretation = "Moderate change - investigate"
+        interpretation = "moderate shift - investigate"
     else:
-        interpretation = "Significant change - take action"
-    
-    return {
-        "psi": psi,
-        "interpretation": interpretation,
-        "detailed": {
-            "expected_props": prop_expected.to_dict(),
-            "actual_props": prop_actual.to_dict()
-        }
-    }
+        interpretation = "significant shift - act"
+    return dict(psi=psi, interpretation=interpretation, n_bins=len(pe),
+                expected_props=pe.tolist(), actual_props=pa.tolist())
 
 
-def learning_curve_analysis(pipe, X, y, train_sizes=np.linspace(0.1, 1.0, 5), 
-                            cv=5, seed=SEED):
-    """Learning curve analysis: model performance vs training set size.
-    
-    Returns train/test AUC scores across different training set proportions.
+def learning_curve_analysis(pipe, X, y, train_sizes=np.linspace(0.1, 1.0, 5), cv=5, seed=SEED):
+    """Train and cross-validated AUC as the training set grows (stratified, shuffled folds).
+
+    A large, persistent train-CV gap means high variance (more data or more regularisation helps);
+    two low curves that have converged mean high bias (a richer model or better features are needed).
+    The pipeline is re-fitted inside every fold, so preprocessing never sees the held-out fold.
     """
-    from sklearn.model_selection import learning_curve
-    from sklearn.metrics import roc_auc_score
-    import numpy as np
-    
-    train_sizes, train_scores, test_scores = learning_curve(
-        pipe, X, y, cv=cv, scoring="roc_auc",
-        train_sizes=train_sizes, random_state=seed
-    )
-    
-    return {
-        "train_sizes": train_sizes,
-        "train_mean": np.mean(train_scores, axis=1),
-        "train_std": np.std(train_scores, axis=1),
-        "test_mean": np.mean(test_scores, axis=1),
-        "test_std": np.std(test_scores, axis=1),
-    }
+    from sklearn.model_selection import StratifiedKFold, learning_curve
+    sizes, tr, te = learning_curve(pipe, X, y, cv=StratifiedKFold(cv, shuffle=True, random_state=seed),
+                                   scoring="roc_auc", train_sizes=train_sizes, n_jobs=1)
+    return pd.DataFrame(dict(n_train=sizes, train_auc_mean=tr.mean(1), train_auc_sd=tr.std(1),
+                             cv_auc_mean=te.mean(1), cv_auc_sd=te.std(1)))
 
 
-def calibration_intercept_slope(y, p):
-    """Calculate calibration intercept and slope.
-    
-    Fits: y = intercept + slope * p (via logistic regression calibration)
-    Ideal: intercept=0, slope=1
+def calibration_intercept_slope(y, p, eps=1e-6):
+    """Logistic recalibration: fit  logit P(y=1) = a + b * logit(p).
+
+    Ideal calibration is a = 0 (calibration-in-the-large) and b = 1. b < 1 means predictions are too
+    extreme (over-fitting); b > 1 means they are too timid. Returns (intercept a, slope b).
     """
-    import numpy as np
-    
-    p = np.asarray(p).reshape(-1)
+    p = np.clip(np.asarray(p, dtype=float).reshape(-1), eps, 1 - eps)
     y = np.asarray(y).reshape(-1)
-    
-    n = len(y)
-    p_mean = p.mean()
-    y_mean = y.mean()
-    
-    # slope = cov(y, p) / var(p)
-    # intercept = y_mean - slope * p_mean
-    cov_lp = ((y - y_mean) * (p - p_mean)).mean()
-    var_p = ((p - p_mean) ** 2).mean()
-    
-    if var_p == 0:
-        return 0.0, 1.0
-    
-    slope = cov_lp / var_p
-    intercept = y_mean - slope * p_mean
-    
-    return float(intercept), float(slope)
+    lp = np.log(p / (1 - p)).reshape(-1, 1)
+    lr = LogisticRegression(C=1e6, max_iter=1000).fit(lp, y)  # C large = (almost) unpenalised
+    return float(lr.intercept_[0]), float(lr.coef_[0, 0])
 
 
-def decision_curve_analysis(y, p, ratios=range(1, 21)):
-    """Decision Curve Analysis: net benefit across threshold probabilities.
-    
-    Used in medical/credit risk to evaluate clinical usefulness
-    of a model across different risk tolerance levels.
+def decision_curve_analysis(y, p, thresholds=None):
+    """Decision Curve Analysis (Vickers & Elkin, 2006).
+
+    "Treat" here means flag the applicant as adverse (reject / review). At threshold probability pt,
+        net benefit = TP/n - FP/n * pt / (1 - pt)
+    The weight pt/(1-pt) is the exchange rate between errors the decision-maker accepts. Under our
+    cost model (FN costs r times an FP) the Bayes-optimal threshold is pt = 1/(r+1), i.e. weight 1/r.
+    Baselines: reject-all (treat all) and approve-all (treat none, net benefit 0).
     """
-    import numpy as np
-    
-    p = np.asarray(p).reshape(-1)
     y = np.asarray(y).reshape(-1)
-    
-    results = {}
-    for ratio in ratios:
-        best_t = best_threshold(y, p, ratio)
-        # Net benefit = TP/n - ratio * FP/n
-        yhat = (p >= best_t).astype(int)
+    p = np.asarray(p).reshape(-1)
+    n, prev = len(y), y.mean()
+    if thresholds is None:
+        thresholds = np.round(np.arange(0.02, 0.81, 0.01), 2)
+    rows = []
+    for pt in thresholds:
+        w = pt / (1 - pt)
+        yhat = p >= pt
         tp = int((yhat & (y == 1)).sum())
         fp = int((yhat & (y == 0)).sum())
-        n = len(y)
-        net_benefit = tp / n - ratio * fp / n
-        
-        # Also calculate "treat all" and "treat none" baselines
-        net_benefit_treat_all = y.mean() - ratio * (1 - y.mean())
-        net_benefit_treat_none = 0.0
-        
-        results[ratio] = {
-            "best_threshold": best_t,
-            "net_benefit": net_benefit,
-            "net_benefit_treat_all": net_benefit_treat_all,
-            "net_benefit_treat_none": net_benefit_treat_none,
-        }
-    
-    return results
-    """Expected Calibration Error: weighted average of |avg_pred - avg_actual| per bin."""
-    y = np.asarray(y)
-    p = np.asarray(p)
-    bins = np.linspace(0.0, 1.0, n_bins + 1)
-    ece = 0.0
-    for i in range(n_bins):
-        lo, hi = bins[i], bins[i + 1]
-        mask = (p > lo) & (p <= hi) if i < n_bins - 1 else (p >= lo) & (p <= hi)
-        if mask.sum() == 0:
-            continue
-        bin_conf = p[mask].mean()
-        bin_acc = y[mask].mean()
-        ece += (mask.sum() / len(y)) * abs(bin_conf - bin_acc)
-    return float(ece)
-
-
-def reliability_curve(y, p, n_bins=10):
-    """Returns per-bin mean predicted probability and observed adverse rate."""
-    y = np.asarray(y)
-    p = np.asarray(p)
-    bins = np.linspace(0.0, 1.0, n_bins + 1)
-    rows = []
-    for i in range(n_bins):
-        lo, hi = bins[i], bins[i + 1]
-        mask = (p > lo) & (p <= hi) if i < n_bins - 1 else (p >= lo) & (p <= hi)
-        if mask.sum() == 0:
-            continue
-        rows.append(dict(bin=i, mean_pred=float(p[mask].mean()),
-                         frac_pos=float(y[mask].mean()), n=int(mask.sum())))
+        rows.append(dict(threshold=float(pt), implied_cost_ratio=round((1 - pt) / pt, 2),
+                         net_benefit_model=tp / n - fp / n * w,
+                         net_benefit_reject_all=prev - (1 - prev) * w,
+                         net_benefit_approve_all=0.0))
     return pd.DataFrame(rows)
 
 
+# ----------------------------------------------------------------------------- calibration helpers
 def ece_score(y, p, n_bins=10):
     """Expected Calibration Error: weighted average of |avg_pred - avg_actual| per bin."""
     y = np.asarray(y)
@@ -400,9 +317,7 @@ def ece_score(y, p, n_bins=10):
         mask = (p > lo) & (p <= hi) if i < n_bins - 1 else (p >= lo) & (p <= hi)
         if mask.sum() == 0:
             continue
-        bin_conf = p[mask].mean()
-        bin_acc = y[mask].mean()
-        ece += (mask.sum() / len(y)) * abs(bin_conf - bin_acc)
+        ece += (mask.sum() / len(y)) * abs(p[mask].mean() - y[mask].mean())
     return float(ece)
 
 

@@ -1,70 +1,34 @@
 dataset,attribute,feature,disparity,high_group,low_group,is_sensitive_feature,mean_abs_phi
-<<<<<<< HEAD
-approval,Gender,ApplicantIncome,0.23323668821646615,Female,Male,False,0.45738149823808
-approval,Gender,CoapplicantIncome,0.15850017181973988,Female,Male,False,0.4431969565429084
-approval,Gender,Credit_History,0.23071126943642942,Male,Female,False,1.0873576965347849
-approval,Gender,Dependents,0.030573924785893263,Female,Male,False,0.1773777592415059
-approval,Gender,Education,0.007455394153896271,Female,Male,False,0.14654549349144036
-approval,Gender,Gender,0.12228511014722396,Male,Female,True,0.038429281017054194
-approval,Gender,LoanAmount,0.1456107411668103,Male,Female,False,0.5508936421131609
-approval,Gender,Loan_Amount_Term,0.017091089394614383,Male,Female,False,0.027219694016523372
-approval,Gender,Married,0.3598676487763838,Female,Male,False,0.3363955136224759
-approval,Gender,Property_Area,0.09332321346195405,Female,Male,False,0.34288167374596595
-approval,Gender,Self_Employed,0.018220224645386682,Female,Male,False,0.04246944092034908
-approval,Married,ApplicantIncome,0.0783746610265051,Yes,No,False,0.45738149823808
-approval,Married,CoapplicantIncome,0.19157199512962397,No,Yes,False,0.4431969565429084
-approval,Married,Credit_History,0.10788485023737157,No,Yes,False,1.0873576965347849
-approval,Married,Dependents,0.05901331503821086,No,Yes,False,0.1773777592415059
-approval,Married,Education,0.01744893441468335,Yes,No,False,0.14654549349144036
-approval,Married,Gender,0.039334845569624154,Yes,No,False,0.038429281017054194
-approval,Married,LoanAmount,0.10172905481947858,Yes,No,False,0.5508936421131609
-approval,Married,Loan_Amount_Term,0.013546615297531713,Yes,No,False,0.027219694016523372
-approval,Married,Married,0.7630197972726313,No,Yes,True,0.3363955136224759
-approval,Married,Property_Area,0.0024778868372747793,Yes,No,False,0.34288167374596595
-approval,Married,Self_Employed,0.009140299128439366,Yes,No,False,0.04246944092034908
-approval,Education,ApplicantIncome,0.07255904273407571,Not Graduate,Graduate,False,0.45738149823808
-approval,Education,CoapplicantIncome,0.08092536857535007,Graduate,Not Graduate,False,0.4431969565429084
-approval,Education,Credit_History,0.7741857290222582,Not Graduate,Graduate,False,1.0873576965347849
-approval,Education,Dependents,0.03245172811340662,Graduate,Not Graduate,False,0.1773777592415059
-approval,Education,Education,0.43149980946067124,Not Graduate,Graduate,True,0.14654549349144036
-approval,Education,Gender,0.011587395614079904,Not Graduate,Graduate,False,0.038429281017054194
-approval,Education,LoanAmount,0.37767287523877563,Graduate,Not Graduate,False,0.5508936421131609
-approval,Education,Loan_Amount_Term,0.006772101233065584,Not Graduate,Graduate,False,0.027219694016523372
-approval,Education,Married,0.04623146571830289,Graduate,Not Graduate,False,0.3363955136224759
-approval,Education,Property_Area,0.0710530174668313,Graduate,Not Graduate,False,0.34288167374596595
-approval,Education,Self_Employed,0.01324764445403619,Graduate,Not Graduate,False,0.04246944092034908
-=======
-approval,Gender,ApplicantIncome,0.24538489646865091,Female,Male,False,0.6573328065366458
-approval,Gender,CoapplicantIncome,0.25762863501531974,Female,Male,False,0.6027799743433561
-approval,Gender,Credit_History,0.2967031994790952,Male,Female,False,1.3386556878952731
-approval,Gender,Dependents,0.050104827447614436,Female,Male,False,0.23974722834768214
+approval,Gender,ApplicantIncome,0.24538489646865094,Female,Male,False,0.6573328065366458
+approval,Gender,CoapplicantIncome,0.2576286350153197,Female,Male,False,0.602779974343356
+approval,Gender,Credit_History,0.29670319947909507,Male,Female,False,1.3386556878952731
+approval,Gender,Dependents,0.050104827447614436,Female,Male,False,0.2397472283476822
 approval,Gender,Education,0.012502961327100064,Female,Male,False,0.20952663367684873
-approval,Gender,Gender,0.3358227107184344,Male,Female,True,0.10307067384746037
-approval,Gender,LoanAmount,0.18171628514286547,Male,Female,False,0.7340725115552098
-approval,Gender,Loan_Amount_Term,0.009971916399523828,Male,Female,False,0.05193078978438418
-approval,Gender,Married,0.44745150916009413,Female,Male,False,0.4226897139342446
-approval,Gender,Property_Area,0.09224272896496027,Female,Male,False,0.42422407754466085
-approval,Gender,Self_Employed,0.012135994764192526,Female,Male,False,0.07342937070898689
-approval,Married,ApplicantIncome,0.09463367388988385,Yes,No,False,0.6573328065366458
-approval,Married,CoapplicantIncome,0.29414836999859234,No,Yes,False,0.6027799743433561
-approval,Married,Credit_History,0.130781196772365,No,Yes,False,1.3386556878952731
-approval,Married,Dependents,0.07958607162020218,No,Yes,False,0.23974722834768214
-approval,Married,Education,0.028212894698641952,Yes,No,False,0.20952663367684873
-approval,Married,Gender,0.10823695706119216,Yes,No,False,0.10307067384746037
-approval,Married,LoanAmount,0.15539897306314993,Yes,No,False,0.7340725115552098
-approval,Married,Loan_Amount_Term,0.009644180319665945,Yes,No,False,0.05193078978438418
-approval,Married,Married,0.9615293047616282,No,Yes,True,0.4226897139342446
-approval,Married,Property_Area,0.03617183617756839,Yes,No,False,0.42422407754466085
-approval,Married,Self_Employed,0.018527163508384178,Yes,No,False,0.07342937070898689
-approval,Education,ApplicantIncome,0.034873556656695184,Not Graduate,Graduate,False,0.6573328065366458
-approval,Education,CoapplicantIncome,0.14007877549900205,Graduate,Not Graduate,False,0.6027799743433561
-approval,Education,Credit_History,0.9515875720452378,Not Graduate,Graduate,False,1.3386556878952731
-approval,Education,Dependents,0.004316827466923676,Graduate,Not Graduate,False,0.23974722834768214
+approval,Gender,Gender,0.3358227107184344,Male,Female,True,0.10307067384746035
+approval,Gender,LoanAmount,0.1817162851428654,Male,Female,False,0.7340725115552098
+approval,Gender,Loan_Amount_Term,0.00997191639952383,Male,Female,False,0.05193078978438418
+approval,Gender,Married,0.44745150916009413,Female,Male,False,0.42268971393424465
+approval,Gender,Property_Area,0.09224272896496027,Female,Male,False,0.4242240775446608
+approval,Gender,Self_Employed,0.01213599476419253,Female,Male,False,0.07342937070898689
+approval,Married,ApplicantIncome,0.09463367388988382,Yes,No,False,0.6573328065366458
+approval,Married,CoapplicantIncome,0.2941483699985924,No,Yes,False,0.602779974343356
+approval,Married,Credit_History,0.13078119677236505,No,Yes,False,1.3386556878952731
+approval,Married,Dependents,0.0795860716202022,No,Yes,False,0.2397472283476822
+approval,Married,Education,0.028212894698641956,Yes,No,False,0.20952663367684873
+approval,Married,Gender,0.10823695706119216,Yes,No,False,0.10307067384746035
+approval,Married,LoanAmount,0.1553989730631499,Yes,No,False,0.7340725115552098
+approval,Married,Loan_Amount_Term,0.009644180319665942,Yes,No,False,0.05193078978438418
+approval,Married,Married,0.9615293047616282,No,Yes,True,0.42268971393424465
+approval,Married,Property_Area,0.03617183617756837,Yes,No,False,0.4242240775446608
+approval,Married,Self_Employed,0.01852716350838418,Yes,No,False,0.07342937070898689
+approval,Education,ApplicantIncome,0.03487355665669524,Not Graduate,Graduate,False,0.6573328065366458
+approval,Education,CoapplicantIncome,0.140078775499002,Graduate,Not Graduate,False,0.602779974343356
+approval,Education,Credit_History,0.9515875720452379,Not Graduate,Graduate,False,1.3386556878952731
+approval,Education,Dependents,0.004316827466923677,Graduate,Not Graduate,False,0.2397472283476822
 approval,Education,Education,0.6056623934317503,Not Graduate,Graduate,True,0.20952663367684873
-approval,Education,Gender,0.017207354633110128,Not Graduate,Graduate,False,0.10307067384746037
+approval,Education,Gender,0.01720735463311012,Not Graduate,Graduate,False,0.10307067384746035
 approval,Education,LoanAmount,0.4787953260083546,Graduate,Not Graduate,False,0.7340725115552098
 approval,Education,Loan_Amount_Term,0.022740518636472053,Not Graduate,Graduate,False,0.05193078978438418
-approval,Education,Married,0.05817091383572365,Graduate,Not Graduate,False,0.4226897139342446
-approval,Education,Property_Area,0.0944382358537676,Graduate,Not Graduate,False,0.42422407754466085
+approval,Education,Married,0.05817091383572364,Graduate,Not Graduate,False,0.42268971393424465
+approval,Education,Property_Area,0.09443823585376761,Graduate,Not Graduate,False,0.4242240775446608
 approval,Education,Self_Employed,0.02349865307440607,Graduate,Not Graduate,False,0.07342937070898689
->>>>>>> 3f1ba31 (Initial commit)

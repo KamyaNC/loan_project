@@ -1,0 +1,6 @@
+dataset,variable,kind,psi,interpretation
+default,model_score,score,0.00013442888646808283,stable
+default,loan_amount,feature,0.00040517659243951014,stable
+default,term,feature,8.819727435052789e-09,stable
+default,income,feature,0.0002605184527101791,stable
+default,Credit_Score,feature,0.00029790895864523394,stable

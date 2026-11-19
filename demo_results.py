@@ -63,9 +63,15 @@ ct10 = ct[ct["ratio"] == 10]
 print(f"{'Policy':<24} {'Threshold':>10} {'Cost/Applicant':>16} {'FN':>5} {'FP':>6}")
 print("-" * 66)
 for _, row in ct10.iterrows():
-    ts = row['threshold_star']
-    ts_str = f"{ts:.4f}" if isinstance(ts, (int, float)) else str(ts)
-    print(f"{ts_str:<24} {ts_str:>10} {row['cost_per_applicant']:>16.4f} "
+    ts = str(row['threshold_star'])
+    # numeric thresholds are model policies; text rows are the trivial approve-all / reject-all baselines
+    if ts in ("approve-all", "reject-all"):
+        policy, thr = ts, "-"
+    elif float(ts) == 0.5:
+        policy, thr = "model, standard t=0.50", "0.50"
+    else:
+        policy, thr = "model, cost-optimal t*", f"{float(ts):.2f}"
+    print(f"{policy:<24} {thr:>10} {row['cost_per_applicant']:>16.4f} "
           f"{row['fn']:>5} {row['fp']:>6}")
 print()
 
@@ -80,7 +86,9 @@ for _, row in sig.iterrows():
           f"{row['p_value_holm']:>16.4f} {sig_mark:>13}")
 print()
 
+# Headline numbers are read from the CSVs (never hard-coded), so they always match the latest run
+best = tm[tm["model"] == "CatBoost"].iloc[0]
 print("=" * 72)
 print("  CONCLUSION: Real, leakage-free performance on held-out test data.")
-print("  Best model: CatBoost (Optuna-tuned) — Test AUC 0.8109, MCC 0.4665")
+print(f"  Best model: CatBoost (Optuna-tuned) - Test AUC {best['auc']:.4f}, MCC {best['mcc']:.4f} (t = 0.50)")
 print("=" * 72)

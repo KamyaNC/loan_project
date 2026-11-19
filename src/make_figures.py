@@ -222,9 +222,50 @@ def fig_calibration():
     save(fig, "fig_calibration")
 
 
+# ---------------------------------------------------------------- 8. course methods (run_course_methods.py outputs)
+def fig_permutation():
+    """Top-10 features by drop in test AUC when the column is shuffled (error bar = sd over repeats)."""
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.8))
+    for ax, ds in zip(axes, ["default", "approval"]):
+        d = rd(f"{ds}_course_permutation_importance").head(10).iloc[::-1]
+        ax.barh(d.feature, d.importance_mean, xerr=d.importance_sd, color=BLUE, height=0.6,
+                error_kw=dict(lw=0.8, capsize=2))
+        ax.axvline(0, color=INK, lw=0.8)
+        ax.set_title(f"{TITLES[ds]} [{d.model.iloc[0]}]", fontsize=9)
+        ax.set_xlabel("drop in test AUC when the column is shuffled")
+        ax.grid(axis="y", visible=False)
+    fig.suptitle("Permutation importance of the final models (test split)", fontsize=10, fontweight="bold", y=1.02)
+    fig.tight_layout()
+    save(fig, "fig_permutation_importance")
+
+
+def fig_decision_curve():
+    """Net benefit of the model vs the two trivial policies; dotted line marks the 10:1 cost ratio (pt = 1/11)."""
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.6))
+    for ax, ds in zip(axes, ["default", "approval"]):
+        d = rd(f"{ds}_course_decision_curve")
+        ax.plot(d.threshold, d.net_benefit_model, color=BLUE, lw=1.8, label=f"model ({d.model.iloc[0]})")
+        ax.plot(d.threshold, d.net_benefit_reject_all, color=RED, lw=1.4, ls="--", label="reject everyone")
+        ax.plot(d.threshold, d.net_benefit_approve_all, color=GREY, lw=1.4, label="approve everyone")
+        ax.axvline(1 / 11, color=INK, lw=0.8, ls=":")
+        ax.text(1 / 11 + 0.01, 0.95, "10:1", fontsize=8, transform=ax.get_xaxis_transform())
+        top = d.net_benefit_model.max()
+        ax.set_ylim(-0.05 * max(top, 0.05), top * 1.25 + 0.01)
+        ax.set_title(TITLES[ds], fontsize=9)
+        ax.set_xlabel("threshold probability pt (reject if P(adverse) ≥ pt)")
+    axes[0].set_ylabel("net benefit")
+    axes[0].legend(fontsize=8, loc="upper right")
+    fig.suptitle("Decision curve analysis: where the model beats the trivial policies (test split)",
+                 fontsize=10, fontweight="bold", y=1.02)
+    save(fig, "fig_decision_curve")
+
+
 if __name__ == "__main__":
     for f in (fig_leakage, fig_ablation, fig_cost, fig_learning, fig_regularisation, fig_shap):
         f()
     if os.path.exists(f"{RES}/ext_default_policy_comparison.csv"):   # written by run_extensions.py
         fig_policy()
         fig_calibration()
+    if os.path.exists(f"{RES}/default_course_decision_curve.csv"):  # written by run_course_methods.py
+        fig_permutation()
+        fig_decision_curve()
