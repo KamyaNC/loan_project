@@ -3,6 +3,27 @@
 Implements the Phase 1 plan on two public Kaggle datasets: leakage-safe pipeline, feature ablation,
 cost-sensitive decision thresholds, and TreeSHAP + Fairlearn fairness analysis.
 
+## 0. Quick start in VS Code
+
+1. **Open the folder:** File > Open Folder > `loan_project`. Install the Python extension if VS Code suggests it.
+2. **Create the environment** (Terminal > New Terminal):
+
+   ```bash
+   python -m venv .venv
+   # Windows:      .venv\Scripts\activate
+   # macOS/Linux:  source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+   Then Ctrl+Shift+P > "Python: Select Interpreter" > pick the one in `.venv`.
+3. **See every result, organised:** `python report.py`. It prints nine sections (datasets, leakage audit,
+   model comparison, bias-variance, calibration, cost, fairness, key findings, figures) in about a second, using the
+   saved results, and writes them to `REPORT.md` (open it and press Ctrl+Shift+V for the formatted view).
+4. **Score new applications with the saved model:** `python src/predict.py --input data/sample_applications.csv --output predictions.csv`.
+
+The same runs are one click away in the Run and Debug panel (Ctrl+Shift+D): pick a configuration, press F5.
+Retraining is only needed if you change the code; the committed `results/`, `figures/` and `models/` are the full-run outputs.
+
 ## 1. Data
 
 | Dataset | File in `data/` | Kaggle source | Rows x cols |
@@ -64,7 +85,8 @@ Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the s
 | `src/run_course_models.py` | classical course algorithms with capacity sweeps (train vs validation AUC) and test metrics (`*_coursemodels_*.csv`) |
 | `src/predict.py` | applies the saved pipeline and threshold to new applications |
 | `src/make_figures.py` | all figures, built from the CSVs only |
-| `demo_results.py` | prints a summary table of the final results |
+| `report.py` | one-command organised summary of every result; writes `REPORT.md` |
+| `demo_results.py` | short summary of the final Dataset 1 pipeline |
 | `run_all.sh` | runs the whole pipeline in order |
 
 ## 4. Protocol (same for both datasets)

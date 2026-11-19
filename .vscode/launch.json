@@ -1,0 +1,47 @@
+{
+  // Run any of these from the Run and Debug panel (Ctrl+Shift+D), or press F5 after picking one.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "1. Results report (1 second, no retraining)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/report.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "2. Predict on sample applications (saved model)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/predict.py",
+      "args": ["--input", "data/sample_applications.csv", "--output", "predictions.csv"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "3. Rebuild all figures from results/",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/make_figures.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "4. Retrain course models (about 8 min)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/run_course_models.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "5. Course diagnostics on final models (about 1 min)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/run_course_methods.py",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}

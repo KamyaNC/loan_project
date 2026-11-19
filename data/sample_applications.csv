@@ -1,0 +1,26 @@
+ID,year,loan_limit,Gender,approv_in_adv,loan_type,loan_purpose,Credit_Worthiness,open_credit,business_or_commercial,loan_amount,rate_of_interest,Interest_rate_spread,Upfront_charges,term,Neg_ammortization,interest_only,lump_sum_payment,property_value,construction_type,occupancy_type,Secured_by,total_units,income,credit_type,Credit_Score,co-applicant_credit_type,age,submission_of_application,LTV,Region,Security_Type,dtir1
+54890,2019,cf,Male,pre,type3,p1,l1,nopc,nob/c,426500,4.5,0.0222,0.0,360.0,not_neg,not_int,not_lpsm,418000.0,sb,pr,home,1U,5580.0,EXP,890,CIB,45-54,to_inst,102.0334928,central,direct,58.0
+61421,2019,cf,Joint,pre,type2,p1,l1,nopc,b/c,226500,3.75,1.2861,6736.18,360.0,not_neg,not_int,not_lpsm,238000.0,sb,pr,home,1U,3540.0,CIB,794,EXP,65-74,to_inst,95.16806723,North,direct,57.0
+47516,2019,cf,Sex Not Available,nopre,type1,p3,l1,nopc,nob/c,446500,3.25,-0.3707,2797.0,360.0,not_neg,not_int,not_lpsm,838000.0,sb,pr,home,1U,7740.0,CIB,749,EXP,65-74,to_inst,53.28162291,south,direct,37.0
+35012,2019,ncf,Sex Not Available,nopre,type1,p4,l1,nopc,nob/c,1186500,3.25,-0.1211,1250.0,360.0,not_neg,not_int,not_lpsm,3848000.0,sb,pr,home,1U,52440.0,CIB,745,CIB,>74,to_inst,30.83419958,south,direct,26.0
+41816,2019,cf,Joint,nopre,type1,p1,l1,nopc,nob/c,366500,4.0,0.1271,1591.51,360.0,not_neg,not_int,not_lpsm,388000.0,sb,pr,home,1U,4800.0,CIB,689,EXP,25-34,not_inst,94.45876289,North,direct,46.0
+95228,2019,cf,Sex Not Available,nopre,type1,p1,l1,nopc,nob/c,106500,3.875,0.6195,3665.38,360.0,not_neg,not_int,not_lpsm,118000.0,sb,pr,home,1U,8520.0,CIB,662,EXP,<25,to_inst,90.25423729,south,direct,16.0
+56701,2019,cf,Sex Not Available,nopre,type3,p3,l1,nopc,nob/c,186500,,,,360.0,not_neg,not_int,lpsm,228000.0,sb,pr,home,1U,4560.0,CIB,587,CIB,>74,to_inst,81.79824561,south,direct,23.0
+40258,2019,cf,Joint,nopre,type3,p3,l2,nopc,nob/c,296500,3.625,0.2467,6935.0,360.0,not_neg,not_int,not_lpsm,328000.0,sb,pr,home,1U,3840.0,EXP,522,EXP,65-74,to_inst,90.39634146,North,direct,50.0
+36583,2019,cf,Male,nopre,type1,p3,l1,nopc,nob/c,186500,,,,180.0,not_neg,not_int,not_lpsm,,sb,pr,home,1U,0.0,EQUI,706,EXP,>74,to_inst,,North,direct,
+128955,2019,ncf,Joint,nopre,type1,p1,l1,nopc,nob/c,836500,4.625,0.4153,9080.0,360.0,not_neg,not_int,not_lpsm,988000.0,sb,pr,home,1U,18000.0,CIB,597,EXP,55-64,not_inst,84.6659919,North,direct,22.0
+136422,2019,cf,Female,pre,type1,p1,l1,nopc,nob/c,276500,,,,360.0,not_neg,not_int,not_lpsm,298000.0,sb,pr,home,1U,5040.0,CIB,887,CIB,35-44,to_inst,92.7852349,North,direct,37.0
+35325,2019,cf,Sex Not Available,nopre,type1,p3,l1,nopc,nob/c,286500,3.5,0.6202,5930.0,180.0,not_neg,int_only,not_lpsm,368000.0,sb,pr,home,1U,7620.0,EXP,793,CIB,45-54,to_inst,77.85326087,south,direct,29.0
+47996,2019,cf,Female,nopre,type2,p1,l1,nopc,b/c,246500,,,,360.0,not_neg,not_int,not_lpsm,258000.0,sb,pr,home,1U,5400.0,EXP,569,CIB,45-54,to_inst,95.54263566,central,direct,59.0
+153181,2019,ncf,Male,nopre,type1,p4,l1,nopc,nob/c,796500,3.5,-0.2019,3961.59,360.0,not_neg,not_int,not_lpsm,1108000.0,sb,pr,home,1U,33720.0,EXP,810,EXP,55-64,to_inst,71.88628159,North,direct,32.0
+128208,2019,cf,Joint,nopre,type2,p4,l1,nopc,b/c,236500,3.875,0.8116,2342.0,180.0,neg_amm,not_int,not_lpsm,288000.0,sb,pr,home,1U,14820.0,CIB,859,EXP,45-54,to_inst,82.11805556,North,direct,27.0
+37162,2019,cf,Female,nopre,type1,p3,l1,nopc,nob/c,306500,3.75,-0.067,1283.75,360.0,not_neg,not_int,not_lpsm,538000.0,sb,pr,home,1U,3660.0,EXP,613,CIB,55-64,to_inst,56.97026022,North,direct,44.0
+29159,2019,cf,Joint,nopre,type2,p3,l1,nopc,b/c,336500,3.625,0.5653,,360.0,not_neg,not_int,not_lpsm,398000.0,sb,pr,home,1U,5940.0,CRIF,838,EXP,55-64,to_inst,84.54773869,North,direct,59.0
+171245,2019,,Male,nopre,type2,p3,l1,nopc,b/c,156500,4.125,0.7191,0.0,360.0,not_neg,not_int,not_lpsm,188000.0,sb,pr,home,1U,2520.0,CIB,705,CIB,55-64,to_inst,83.24468085,North,direct,37.0
+43930,2019,cf,Male,nopre,type2,p3,l1,nopc,b/c,166500,4.99,1.3984,2231.22,360.0,not_neg,not_int,not_lpsm,198000.0,sb,pr,home,1U,2820.0,CIB,533,CIB,<25,to_inst,84.09090909,North,direct,61.0
+27364,2019,cf,Joint,nopre,type1,p4,l1,nopc,nob/c,396500,4.25,-0.221,0.0,360.0,not_neg,not_int,not_lpsm,578000.0,sb,pr,home,1U,8040.0,CIB,817,EXP,25-34,not_inst,68.59861592,North,direct,25.0
+49544,2019,cf,Joint,nopre,type3,p3,l1,nopc,nob/c,456500,2.75,-0.8704,4550.0,360.0,not_neg,not_int,not_lpsm,598000.0,sb,pr,home,1U,6060.0,CIB,540,EXP,55-64,not_inst,76.33779264,south,direct,60.0
+105024,2019,cf,Female,nopre,type1,p4,l1,nopc,nob/c,266500,,,,360.0,not_neg,not_int,not_lpsm,338000.0,sb,pr,home,1U,4500.0,CIB,830,CIB,35-44,to_inst,78.84615385,North,direct,44.0
+146537,2019,ncf,Joint,pre,type3,p4,l1,nopc,nob/c,706500,3.25,-0.5481,7025.0,360.0,not_neg,not_int,not_lpsm,758000.0,sb,pr,home,1U,,CIB,665,EXP,35-44,not_inst,93.20580475,North,direct,
+115290,2019,cf,Sex Not Available,nopre,type2,p3,l2,nopc,b/c,266500,,,,300.0,neg_amm,not_int,not_lpsm,258000.0,sb,pr,home,1U,3300.0,EXP,769,EXP,45-54,to_inst,103.2945736,south,direct,22.0
+75432,2019,cf,Male,nopre,type1,p3,l1,nopc,nob/c,246500,4.375,0.1581,4546.25,360.0,neg_amm,not_int,not_lpsm,318000.0,sb,pr,home,1U,5400.0,EXP,659,CIB,55-64,to_inst,77.51572327,North,direct,27.0
