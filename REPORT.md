@@ -31,12 +31,12 @@ Dataset 1: 9 of 31 columns flagged and removed (F_clean). Dataset 2: none flagge
 
 Cross-validated AUC with and without the leaked (Dataset 1) / dominant (Dataset 2) features:
 
-| Dataset        | Model    | All features | Without leaked / Credit_History |
-|----------------|----------|--------------|---------------------------------|
-| 1 (15% sample) | LogReg   | 1.000        | 0.741                           |
-| 1 (15% sample) | CatBoost | 1.000        | 0.786                           |
-| 2              | LogReg   | 0.762        | 0.561                           |
-| 2              | XGBoost  | 0.771        | 0.572                           |
+| Dataset | Model    | All features | Without leaked / Credit_History |
+|---------|----------|--------------|---------------------------------|
+| 1       | LogReg   | 1.000        | 0.733                           |
+| 1       | LightGBM | 1.000        | 0.787                           |
+| 2       | LogReg   | 0.762        | 0.561                           |
+| 2       | LightGBM | 0.764        | 0.574                           |
 
 
 ## 3. Model comparison on the untouched test split (threshold 0.50)
@@ -62,10 +62,9 @@ Dataset 2, 123 test applications:
 | Model               | Accuracy | Precision | Recall | F1    | AUC   | MCC   |
 |---------------------|----------|-----------|--------|-------|-------|-------|
 | DecisionTree        | 0.707    | 0.528     | 0.500  | 0.514 | 0.611 | 0.305 |
+| LightGBM            | 0.748    | 0.630     | 0.447  | 0.523 | 0.689 | 0.368 |
 | kNN                 | 0.813    | 0.895     | 0.447  | 0.596 | 0.696 | 0.542 |
 | NaiveBayes          | 0.789    | 0.750     | 0.474  | 0.581 | 0.701 | 0.470 |
-| XGBoost             | 0.764    | 0.667     | 0.474  | 0.554 | 0.708 | 0.411 |
-| CatBoost            | 0.756    | 0.618     | 0.553  | 0.583 | 0.711 | 0.413 |
 | RBF-SVM             | 0.821    | 0.900     | 0.474  | 0.621 | 0.712 | 0.564 |
 | RandForest          | 0.813    | 0.895     | 0.447  | 0.596 | 0.715 | 0.542 |
 | LDA                 | 0.813    | 0.857     | 0.474  | 0.610 | 0.747 | 0.538 |

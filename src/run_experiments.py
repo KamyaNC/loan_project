@@ -33,7 +33,7 @@ from common import (GRIDS, SEED, THRESHOLDS, best_threshold, cost_curve, decisio
 warnings.filterwarnings("ignore")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(ROOT, "results")
-MODELS = ["LogReg", "RandForest", "LightGBM", "XGBoost", "CatBoost"]
+MODELS = ["LogReg", "RandForest", "LightGBM"]   # XGBoost / CatBoost are tuned in run_extensions.py
 RATIOS = [2, 5, 10, 20]         # 10:1 is the Phase 1 choice; the others are the sensitivity sweep
 T0 = time.time()
 

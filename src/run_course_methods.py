@@ -42,8 +42,15 @@ def log(msg):
     print(f"[{time.time() - T0:7.1f}s] {msg}", flush=True)
 
 
+# Final models diagnosed here. Dataset 1: CatBoost (the extension study's final model; settings from the
+# CatBoost validation grid). Dataset 2: the best baseline model by validation AUC (logistic regression).
+FIXED = {"default": ("CatBoost", {"depth": 8, "learning_rate": 0.05, "iterations": 200})}
+
+
 def headline_model(ds, feature_set):
-    """Best model on the headline feature set, chosen by VALIDATION AUC (never by test AUC)."""
+    """Final model for the dataset: fixed for Dataset 1, else best by VALIDATION AUC (never test AUC)."""
+    if ds in FIXED:
+        return FIXED[ds]
     tm = pd.read_csv(f"{RES}/{ds}_test_metrics.csv")
     tm = tm[tm.feature_set == feature_set]
     row = tm.loc[tm.val_auc.idxmax()]

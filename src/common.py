@@ -101,9 +101,8 @@ def make_preprocessor(X):
 # ----------------------------------------------------------------------------- models
 GRIDS = {
     "LogReg": [dict(C=c) for c in (0.01, 0.1, 1.0, 10.0)],
-    "RandForest": [dict(max_depth=d, min_samples_leaf=m) for d in (6, 12, None) for m in (5, 20)],
-    "LightGBM": [dict(num_leaves=n, min_child_samples=m, learning_rate=lr)
-                 for n in (15, 31, 63) for m in (20, 50) for lr in (0.05, 0.1)],
+    "RandForest": [dict(max_depth=d, min_samples_leaf=m) for d in (6, 12) for m in (5, 20)],
+    "LightGBM": [dict(num_leaves=n, min_child_samples=m) for n in (7, 15, 31) for m in (20, 50)],
     "XGBoost": [dict(max_depth=d, learning_rate=lr, n_estimators=ne)
                 for d in (4, 8, 12) for lr in (0.05, 0.1) for ne in (200, 500)],
     "CatBoost": [dict(depth=d, learning_rate=lr, iterations=iters)

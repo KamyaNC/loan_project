@@ -51,7 +51,7 @@ bash run_all.sh                                        # everything below, in th
 Or step by step (order matters: later scripts read earlier results):
 
 ```bash
-python src/run_experiments.py      # 1. baseline: leakage audit, ablation, 5 models, CV, cost thresholds, fairness
+python src/run_experiments.py      # 1. baseline: leakage audit, ablation, LogReg / RF / LightGBM, CV, cost thresholds, fairness
 python src/run_extensions.py       # 2. engineered features, Optuna-tuned boosters, stacking, calibration,
                                    #    significance tests, fairness-constrained thresholds (reads results/*_tuning.csv)
 python src/run_improved.py         # 3. final Dataset 1 pipeline; saves the deployable model to models/
@@ -62,8 +62,7 @@ python demo_results.py             # 6. one-screen summary of the final results 
 ```
 
 Every experiment script accepts `--quick` (15% sample of Dataset 1, fewer trials) for a 1-2 minute smoke test, and
-`--data <folder>` to read the CSVs from another folder. The full baseline run tunes 5 models x 12 grid points on
-148k rows and is slow on a 2-core laptop (CatBoost/XGBoost at depth 12 dominate); the committed `results/` already
+`--data <folder>` to read the CSVs from another folder. The full baseline run takes about 7-8 minutes on a 2-core laptop; the committed `results/` already
 contain the full-run outputs, so `make_figures.py` and `demo_results.py` work without re-running anything.
 **Note:** `--quick` writes to the same `results/` files, so run it on a copy if you want to keep the full-run tables.
 
@@ -103,7 +102,7 @@ Everything is seeded (`SEED = 42` in `src/common.py`), so reruns reproduce the s
 3. Imputation (median plus missing indicators / constant), scaling and one-hot encoding live inside a scikit-learn
    `Pipeline`, so they are fitted on training data only. SMOTE (when used) is inside an imbalanced-learn pipeline,
    so it only touches training folds.
-4. Models: Logistic Regression (L2), Random Forest, LightGBM, XGBoost, CatBoost. Hyper-parameters are chosen on the validation split.
+4. Models: Logistic Regression (L2), Random Forest, LightGBM (baseline); XGBoost, CatBoost and stacking in the extensions. Hyper-parameters are chosen on the validation split.
    Train and validation AUC are both logged (`*_tuning.csv`) to show the bias-variance / regularisation trade-off.
 5. Stability: stratified 5-fold CV on train+val (5 repeats for Dataset 2, 1 for Dataset 1) -> `*_cv.csv` (mean and sd).
 6. Final model = best configuration refit on train+val, evaluated once on the untouched test split -> `*_test_metrics.csv`.
@@ -160,13 +159,10 @@ Each script prints a timestamped progress log and ends with `ALL DONE`.
 
 ## 6. Known limitations
 
-* **Sample size of the Dataset 1 baseline tables.** The committed `default_*.csv` baseline tables (grid search over
-  5 models, F_full vs F_clean ablation, CV, cost thresholds, fairness) were produced with `--quick`, i.e. on a
-  stratified 15% sample (22,300 rows; test split 4,460 rows), because the full grid is very slow on a laptop.
-  On that sample the audit flags 7 columns (`age` and `submission_of_application` are not flagged).
-  The extensions (`ext_default_*`), the final pipeline (`improved_default_*`, `models/`), the course diagnostics
-  (`default_course_*`) and `default_leakage_audit.csv` use all 148,670 rows (test split 29,734 rows; 9 flagged columns).
-  Run `python src/run_experiments.py` without `--quick` to rebuild the baseline tables on the full data.* Dataset 2's test split has only 123 rows (19 female applicants), so its test metrics and fairness gaps are noisy.
+* **Baseline vs extension models.** The baseline (`run_experiments.py`) compares logistic regression, random forest and
+  LightGBM on all 148,670 rows (grid: C in {0.01, 0.1, 1, 10}; forest depth {6, 12} x leaf {5, 20}; LightGBM leaves
+  {7, 15, 31} x min child {20, 50}). XGBoost, CatBoost, stacking and calibration are added in the extension and improved
+  runs; the classical course models in `run_course_models.py` (k-NN and SVMs on a 20,000-row training sample).* Dataset 2's test split has only 123 rows (19 female applicants), so its test metrics and fairness gaps are noisy.
   Prefer the repeated-CV numbers and the bootstrap intervals.
 * `dtir1`, `age` and `submission_of_application` are flagged by the audit rules and removed in `F_clean`, so
   `F_clean` is a conservative feature set.

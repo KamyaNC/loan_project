@@ -85,10 +85,10 @@ def main():
           {"pct_missing": lambda v: f"{v:.1f}"})
     cv1, cv2 = rd("default_cv"), rd("approval_cv")
     ab = []
-    for m in ("LogReg", "CatBoost"):
+    for m in ("LogReg", "LightGBM"):
         g = cv1[(cv1.metric == "auc") & (cv1.model == m)].set_index("feature_set")["mean"]
-        ab.append(dict(ds="1 (15% sample)", model=m, full=g["F_full"], clean=g["F_clean"]))
-    for m in ("LogReg", "XGBoost"):
+        ab.append(dict(ds="1", model=m, full=g["F_full"], clean=g["F_clean"]))
+    for m in ("LogReg", "LightGBM"):
         g = cv2[(cv2.metric == "auc") & (cv2.model == m)].set_index("feature_set")["mean"]
         ab.append(dict(ds="2", model=m, full=g["F_full"], clean=g["F_noCreditHistory"]))
     say("Cross-validated AUC with and without the leaked (Dataset 1) / dominant (Dataset 2) features:")
@@ -111,7 +111,7 @@ def main():
     table(d1, cols, hdr)
     cm2 = rd("approval_coursemodels_test")
     t2 = rd("approval_test_metrics")
-    t2 = t2[(t2.feature_set == "F_full") & t2.model.isin(["RandForest", "XGBoost", "CatBoost"])]
+    t2 = t2[(t2.feature_set == "F_full") & t2.model.isin(["RandForest", "LightGBM"])]
     d2 = pd.concat([cm2[cm2.model != "LogReg-L1"], t2]).sort_values("auc")
     d2["model"] = d2.model.replace({"LogReg-L2": "LogReg-L2  <- final"})
     say("Dataset 2, 123 test applications:")
